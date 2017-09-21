@@ -76,12 +76,12 @@
         "maxTopics": 1,
         "maxMessagesPerTopic": "6",
         "maxDelay": -1,
-        "x": 110,
-        "y": 350,
+        "x": 120,
+        "y": 340,
         "wires": [
             [
-                "76f8d656.f87cb8",
-                "9b4c9ca9.8a306"
+                "9b4c9ca9.8a306",
+                "b2a24ec3.a8681"
             ]
         ]
     },
@@ -106,11 +106,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add api key",
-        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
+        "func": "var newmsg = {}\nnewmsg.payload = {};\nnewmsg.headers = {};\nnewmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newmsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 360,
-        "y": 350,
+        "x": 370,
+        "y": 340,
         "wires": [
             [
                 "30e7601e.e95c2"
@@ -126,38 +126,11 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/enable/wlan0",
         "tls": "",
-        "x": 360,
-        "y": 410,
+        "x": 370,
+        "y": 400,
         "wires": [
             [
                 "97652429.76c0f8"
-            ]
-        ]
-    },
-    {
-        "id": "76f8d656.f87cb8",
-        "type": "change",
-        "z": "5553381b.ce0098",
-        "name": "store apikey",
-        "rules": [
-            {
-                "t": "set",
-                "p": "apikey",
-                "pt": "flow",
-                "to": "7723ad9b117a23e3c3fba67906197dfede138e6e",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 120,
-        "y": 410,
-        "wires": [
-            [
-                "b2a24ec3.a8681"
             ]
         ]
     },
@@ -180,8 +153,8 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 360,
-        "y": 470,
+        "x": 370,
+        "y": 460,
         "wires": [
             [
                 "37e806e2.063f5a"
@@ -196,10 +169,10 @@
         "name": "connect Wi-Fi",
         "method": "POST",
         "ret": "obj",
-        "url": "127.0.0.1:5000/connect/wlan0:{{{available}}}:-1000.0:-1000.0",
+        "url": "127.0.0.1:5000/connect/wlan0:{{{available}}}:{{{latitude}}}:{{{longitude}}}",
         "tls": "",
-        "x": 1560,
-        "y": 380,
+        "x": 1200,
+        "y": 340,
         "wires": [
             [
                 "7ad990a2.4b717"
@@ -225,7 +198,7 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 1550,
+        "x": 1190,
         "y": 440,
         "wires": [
             [
@@ -242,8 +215,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 1830,
-        "y": 200,
+        "x": 1710,
+        "y": 340,
         "wires": []
     },
     {
@@ -251,14 +224,14 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add api key",
-        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.available = msg.available;\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
+        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1550,
-        "y": 320,
+        "x": 910,
+        "y": 460,
         "wires": [
             [
-                "e1f776c7.c2e1a8"
+                "dc91b3c.1b8865"
             ]
         ]
     },
@@ -271,8 +244,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/disable/wlan0",
         "tls": "",
-        "x": 1830,
-        "y": 580,
+        "x": 1690,
+        "y": 600,
         "wires": [
             [
                 "dffede07.8bd1e"
@@ -298,8 +271,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1830.5,
-        "y": 642,
+        "x": 1690.5,
+        "y": 662,
         "wires": [
             [],
             []
@@ -310,11 +283,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add api key",
-        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
+        "func": "var newmsg = {};\nnewmsg.payload = {};\nnewmsg.headers = {};\nnewmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newmsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1830,
-        "y": 520,
+        "x": 1690,
+        "y": 540,
         "wires": [
             [
                 "5f760f4c.a62c1"
@@ -326,11 +299,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "batch produce",
-        "func": "var queue = flow.get('queue') || [];\nqueue.push(msg);\nflow.set('queue', queue);\nreturn msg;",
+        "func": "var queue = flow.get('queue') || [];\nqueue.push({\n    topic: msg.topic,\n    payload: msg.payload,\n    _msgid: msg._msgid\n});\nflow.set('queue', queue);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 129,
-        "y": 471,
+        "x": 120,
+        "y": 400,
         "wires": [
             [
                 "bc8b36b3.25f828"
@@ -342,11 +315,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "batch consume",
-        "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var msg = queue.shift();\n    flow.set('queue', queue);\n    return msg;\n} else {\n    return null;\n}",
+        "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var lastmsg = queue.shift();\n    flow.set('queue', queue);\n    return lastmsg;\n} else {\n    return null;\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 1840,
-        "y": 320,
+        "x": 1480,
+        "y": 340,
         "wires": [
             [
                 "668665.a35cf99c",
@@ -362,8 +335,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 125.5,
-        "y": 591,
+        "x": 110,
+        "y": 460,
         "wires": []
     },
     {
@@ -371,11 +344,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add api key",
-        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
+        "func": "var newmsg = {}\nnewmsg.payload = {};\nnewmsg.headers = {};\nnewmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newmsg;",
         "outputs": "1",
         "noerr": 0,
         "x": 630,
-        "y": 360,
+        "y": 340,
         "wires": [
             [
                 "db98f2fe.5d268"
@@ -392,7 +365,7 @@
         "url": "127.0.0.1:5000/available/wlan0",
         "tls": "",
         "x": 650,
-        "y": 420,
+        "y": 400,
         "wires": [
             [
                 "558db50e.94048c"
@@ -403,7 +376,7 @@
         "id": "dc91b3c.1b8865",
         "type": "switch",
         "z": "5553381b.ce0098",
-        "name": "Wi-Fi or LTE",
+        "name": "Wi-Fi available",
         "property": "available",
         "propertyType": "msg",
         "rules": [
@@ -416,14 +389,14 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1110,
-        "y": 480,
+        "x": 920,
+        "y": 520,
         "wires": [
             [
-                "7341e36e.e0afbc"
+                "e1f776c7.c2e1a8"
             ],
             [
-                "e64ba3cf.107c5"
+                "3ce10943.809156"
             ]
         ]
     },
@@ -435,84 +408,9 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 1540,
-        "y": 560,
+        "x": 1680,
+        "y": 740,
         "wires": []
-    },
-    {
-        "id": "fe36f186.f665a",
-        "type": "inject",
-        "z": "5553381b.ce0098",
-        "name": "inject wait",
-        "topic": "",
-        "payload": "true",
-        "payloadType": "bool",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 920,
-        "y": 180,
-        "wires": [
-            [
-                "a9cf0ca9.3792e"
-            ]
-        ]
-    },
-    {
-        "id": "a9cf0ca9.3792e",
-        "type": "function",
-        "z": "5553381b.ce0098",
-        "name": "toggle wait",
-        "func": "flow.set('wait', flow.get('wait') || false);\nflow.set('wait', !flow.get('wait'));\n\nmsg.wait = flow.get('wait');\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1110,
-        "y": 160,
-        "wires": [
-            [
-                "8a0b6bcc.16f218"
-            ]
-        ]
-    },
-    {
-        "id": "8a0b6bcc.16f218",
-        "type": "debug",
-        "z": "5553381b.ce0098",
-        "name": "flow.wait",
-        "active": true,
-        "console": "false",
-        "complete": "wait",
-        "x": 1300,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "e64ba3cf.107c5",
-        "type": "switch",
-        "z": "5553381b.ce0098",
-        "name": "wait?",
-        "property": "wait",
-        "propertyType": "flow",
-        "rules": [
-            {
-                "t": "true"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "true",
-        "outputs": 2,
-        "x": 1310,
-        "y": 480,
-        "wires": [
-            [
-                "a2b704ba.36f4f8"
-            ],
-            [
-                "cf969610.08fa18"
-            ]
-        ]
     },
     {
         "id": "558db50e.94048c",
@@ -534,7 +432,7 @@
         "checkall": "false",
         "outputs": 2,
         "x": 630,
-        "y": 480,
+        "y": 460,
         "wires": [
             [
                 "ed0a2369.3f3db"
@@ -550,11 +448,11 @@
         "func": "if (msg.payload.message === '') {\n    msg.available = null;\n} else {\n    msg.available = msg.payload.message;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 880,
-        "y": 480,
+        "x": 920,
+        "y": 340,
         "wires": [
             [
-                "dc91b3c.1b8865"
+                "b5c1f0fb.37626"
             ]
         ]
     },
@@ -569,8 +467,8 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 910,
-        "y": 260,
+        "x": 670,
+        "y": 240,
         "wires": [
             [
                 "fdca9bb9.f673c8"
@@ -585,8 +483,8 @@
         "active": true,
         "console": "false",
         "complete": "queue",
-        "x": 1310,
-        "y": 260,
+        "x": 1070,
+        "y": 240,
         "wires": []
     },
     {
@@ -597,8 +495,8 @@
         "func": "msg.queue = flow.get('queue') || [];\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1110,
-        "y": 240,
+        "x": 870,
+        "y": 220,
         "wires": [
             [
                 "9ccac88a.500e78"
@@ -609,7 +507,7 @@
         "id": "361d36f2.34bf0a",
         "type": "switch",
         "z": "5553381b.ce0098",
-        "name": "queue consumed?",
+        "name": "queue length",
         "property": "queue.length",
         "propertyType": "flow",
         "rules": [
@@ -624,7 +522,7 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1850,
+        "x": 1470,
         "y": 440,
         "wires": [
             [
@@ -632,6 +530,192 @@
             ],
             [
                 "a2b704ba.36f4f8"
+            ]
+        ]
+    },
+    {
+        "id": "b9358c08.7e1ee",
+        "type": "change",
+        "z": "5553381b.ce0098",
+        "name": "store apikey",
+        "rules": [
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "flow",
+                "to": "5930c1e25874a0d9f232f4732a976283b2103f63",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 40,
+        "wires": [
+            [
+                "eb0adea4.bc71a"
+            ]
+        ]
+    },
+    {
+        "id": "2b5f7ad1.3135d6",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "inject apikey",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 670,
+        "y": 80,
+        "wires": [
+            [
+                "b9358c08.7e1ee"
+            ]
+        ]
+    },
+    {
+        "id": "f5d31f70.92efd",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.apikey",
+        "active": true,
+        "console": "false",
+        "complete": "apikey",
+        "x": 1070,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "eb0adea4.bc71a",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "copy apikey",
+        "func": "msg.apikey = flow.get('apikey');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 870,
+        "y": 100,
+        "wires": [
+            [
+                "f5d31f70.92efd"
+            ]
+        ]
+    },
+    {
+        "id": "b5c1f0fb.37626",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "current location",
+        "func": "msg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 920,
+        "y": 400,
+        "wires": [
+            [
+                "7341e36e.e0afbc"
+            ]
+        ]
+    },
+    {
+        "id": "b2b11413.5619c8",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "inject GPS",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 670,
+        "y": 160,
+        "wires": [
+            [
+                "8f37437f.28a54"
+            ]
+        ]
+    },
+    {
+        "id": "8f37437f.28a54",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "set location",
+        "func": "flow.set('latitude', 45.8311206);\nflow.set('longitude', 9.043277999999999);\n\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 870,
+        "y": 140,
+        "wires": [
+            [
+                "386db7f1.60c7e8",
+                "86f89a0c.0c2a98"
+            ]
+        ]
+    },
+    {
+        "id": "386db7f1.60c7e8",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.latitude",
+        "active": true,
+        "console": "false",
+        "complete": "latitude",
+        "x": 1070,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "86f89a0c.0c2a98",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.longitude",
+        "active": true,
+        "console": "false",
+        "complete": "longitude",
+        "x": 1080,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "cd7a8055.39a3f",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "distance",
+        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\n\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance \" + min_dist);\n\nif (min_dist < 3) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 1460,
+        "y": 640,
+        "wires": [
+            [
+                "a2b704ba.36f4f8"
+            ],
+            [
+                "cf969610.08fa18"
+            ]
+        ]
+    },
+    {
+        "id": "3ce10943.809156",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "stored networks",
+        "method": "GET",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/networks/db",
+        "tls": "",
+        "x": 1201,
+        "y": 641,
+        "wires": [
+            [
+                "cd7a8055.39a3f"
             ]
         ]
     }
