@@ -144,7 +144,7 @@
                 "t": "set",
                 "p": "apikey",
                 "pt": "flow",
-                "to": "532d2dfefc5f50b2f821b4339deb031c1f44623c",
+                "to": "7723ad9b117a23e3c3fba67906197dfede138e6e",
                 "tot": "str"
             }
         ],
@@ -196,7 +196,7 @@
         "name": "connect Wi-Fi",
         "method": "POST",
         "ret": "obj",
-        "url": "127.0.0.1:5000/connect/wlan0:{{{optimal}}}",
+        "url": "127.0.0.1:5000/connect/wlan0:{{{available}}}:-1000.0:-1000.0",
         "tls": "",
         "x": 1560,
         "y": 380,
@@ -242,8 +242,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 1790,
-        "y": 580,
+        "x": 1830,
+        "y": 200,
         "wires": []
     },
     {
@@ -251,7 +251,7 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add api key",
-        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.optimal = msg.optimal;\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
+        "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.available = msg.available;\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
         "x": 1550,
@@ -271,8 +271,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/disable/wlan0",
         "tls": "",
-        "x": 1810,
-        "y": 380,
+        "x": 1830,
+        "y": 580,
         "wires": [
             [
                 "dffede07.8bd1e"
@@ -298,8 +298,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1810.5,
-        "y": 442,
+        "x": 1830.5,
+        "y": 642,
         "wires": [
             [],
             []
@@ -313,8 +313,8 @@
         "func": "let newMsg = {};\nnewMsg.payload = {};\nnewMsg.headers = {};\nnewMsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn newMsg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1810,
-        "y": 320,
+        "x": 1830,
+        "y": 520,
         "wires": [
             [
                 "5f760f4c.a62c1"
@@ -326,7 +326,7 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "batch produce",
-        "func": "var queue = flow.get('queue') || [];\nqueue.push({\n    payload: msg.payload,\n    topic: msg.topic\n});\nflow.set('queue', queue);\nreturn msg;",
+        "func": "var queue = flow.get('queue') || [];\nqueue.push(msg);\nflow.set('queue', queue);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 129,
@@ -345,12 +345,12 @@
         "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var msg = queue.shift();\n    flow.set('queue', queue);\n    return msg;\n} else {\n    return null;\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 1560,
-        "y": 500,
+        "x": 1840,
+        "y": 320,
         "wires": [
             [
-                "a2b704ba.36f4f8",
-                "668665.a35cf99c"
+                "668665.a35cf99c",
+                "361d36f2.34bf0a"
             ]
         ]
     },
@@ -386,12 +386,12 @@
         "id": "db98f2fe.5d268",
         "type": "http request",
         "z": "5553381b.ce0098",
-        "name": "optimal network",
+        "name": "available network",
         "method": "GET",
         "ret": "obj",
-        "url": "127.0.0.1:5000/optimal/wlan0",
+        "url": "127.0.0.1:5000/available/wlan0",
         "tls": "",
-        "x": 640,
+        "x": 650,
         "y": 420,
         "wires": [
             [
@@ -404,7 +404,7 @@
         "type": "switch",
         "z": "5553381b.ce0098",
         "name": "Wi-Fi or LTE",
-        "property": "optimal",
+        "property": "available",
         "propertyType": "msg",
         "rules": [
             {
@@ -416,14 +416,14 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1330,
-        "y": 440,
+        "x": 1110,
+        "y": 480,
         "wires": [
             [
                 "7341e36e.e0afbc"
             ],
             [
-                "cf969610.08fa18"
+                "e64ba3cf.107c5"
             ]
         ]
     },
@@ -435,8 +435,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 1520,
-        "y": 580,
+        "x": 1540,
+        "y": 560,
         "wires": []
     },
     {
@@ -482,8 +482,8 @@
         "active": true,
         "console": "false",
         "complete": "wait",
-        "x": 1295.5,
-        "y": 188,
+        "x": 1300,
+        "y": 180,
         "wires": []
     },
     {
@@ -503,37 +503,14 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 890,
-        "y": 420,
+        "x": 1310,
+        "y": 480,
         "wires": [
             [
-                "ca01c3f1.83ada"
+                "a2b704ba.36f4f8"
             ],
             [
-                "ed0a2369.3f3db"
-            ]
-        ]
-    },
-    {
-        "id": "ca01c3f1.83ada",
-        "type": "delay",
-        "z": "5553381b.ce0098",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "15",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "x": 760,
-        "y": 260,
-        "wires": [
-            [
-                "37e806e2.063f5a"
+                "cf969610.08fa18"
             ]
         ]
     },
@@ -560,7 +537,7 @@
         "y": 480,
         "wires": [
             [
-                "e64ba3cf.107c5"
+                "ed0a2369.3f3db"
             ],
             []
         ]
@@ -569,15 +546,92 @@
         "id": "ed0a2369.3f3db",
         "type": "function",
         "z": "5553381b.ce0098",
-        "name": "check optimal",
-        "func": "if (msg.payload.message === '') {\n    msg.optimal = null;\n} else {\n    msg.optimal = msg.payload.message;\n}\n\nreturn msg;",
+        "name": "check available",
+        "func": "if (msg.payload.message === '') {\n    msg.available = null;\n} else {\n    msg.available = msg.payload.message;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1100,
-        "y": 440,
+        "x": 880,
+        "y": 480,
         "wires": [
             [
                 "dc91b3c.1b8865"
+            ]
+        ]
+    },
+    {
+        "id": "40a2c3c.79b7d3c",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "print queue",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 910,
+        "y": 260,
+        "wires": [
+            [
+                "fdca9bb9.f673c8"
+            ]
+        ]
+    },
+    {
+        "id": "9ccac88a.500e78",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.queue",
+        "active": true,
+        "console": "false",
+        "complete": "queue",
+        "x": 1310,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "fdca9bb9.f673c8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "copy queue",
+        "func": "msg.queue = flow.get('queue') || [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1110,
+        "y": 240,
+        "wires": [
+            [
+                "9ccac88a.500e78"
+            ]
+        ]
+    },
+    {
+        "id": "361d36f2.34bf0a",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "queue consumed?",
+        "property": "queue.length",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1850,
+        "y": 440,
+        "wires": [
+            [
+                "ca613ea.7017ac"
+            ],
+            [
+                "a2b704ba.36f4f8"
             ]
         ]
     }
