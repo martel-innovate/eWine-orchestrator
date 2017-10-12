@@ -1,0 +1,814 @@
+[
+    {
+        "id": "5553381b.ce0098",
+        "type": "tab",
+        "label": "orchestrator",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "be8a0902.f0ab98",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "b2367ffe.ec095",
+        "type": "ds18b20",
+        "z": "5553381b.ce0098",
+        "name": "temperature",
+        "sensorid": "28-04168471a4ff",
+        "timer": "0.25",
+        "x": 109,
+        "y": 40,
+        "wires": [
+            [
+                "ff81d48f.8be628"
+            ]
+        ]
+    },
+    {
+        "id": "cd604d1d.33b9c",
+        "type": "mqtt out",
+        "z": "5553381b.ce0098",
+        "name": "publisher",
+        "topic": "temperature",
+        "qos": "1",
+        "retain": "false",
+        "broker": "be8a0902.f0ab98",
+        "x": 115,
+        "y": 171,
+        "wires": []
+    },
+    {
+        "id": "2e7cca26.f583c6",
+        "type": "mqtt in",
+        "z": "5553381b.ce0098",
+        "name": "subscriber",
+        "topic": "temperature",
+        "qos": "1",
+        "broker": "be8a0902.f0ab98",
+        "x": 107,
+        "y": 262,
+        "wires": [
+            [
+                "d811ab33.0253b8"
+            ]
+        ]
+    },
+    {
+        "id": "d811ab33.0253b8",
+        "type": "batcher",
+        "z": "5553381b.ce0098",
+        "name": "",
+        "maxTopics": 1,
+        "maxMessagesPerTopic": "6",
+        "maxDelay": "120000",
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "9b4c9ca9.8a306",
+                "b2a24ec3.a8681"
+            ]
+        ]
+    },
+    {
+        "id": "ff81d48f.8be628",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "add timestamp",
+        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 112,
+        "y": 103,
+        "wires": [
+            [
+                "cd604d1d.33b9c"
+            ]
+        ]
+    },
+    {
+        "id": "bc8b36b3.25f828",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "setup msg",
+        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "30e7601e.e95c2"
+            ]
+        ]
+    },
+    {
+        "id": "30e7601e.e95c2",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "enable Wi-Fi",
+        "method": "POST",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/enable/wlan0",
+        "tls": "",
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "97652429.76c0f8"
+            ]
+        ]
+    },
+    {
+        "id": "97652429.76c0f8",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 370,
+        "y": 460,
+        "wires": [
+            [
+                "37e806e2.063f5a"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e1f776c7.c2e1a8",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "connect Wi-Fi",
+        "method": "POST",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/connect/wlan0:{{{availableWifi}}}:{{{latitude}}}:{{{longitude}}}",
+        "tls": "",
+        "x": 1273,
+        "y": 407,
+        "wires": [
+            [
+                "7ad990a2.4b717"
+            ]
+        ]
+    },
+    {
+        "id": "7ad990a2.4b717",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 1276,
+        "y": 464,
+        "wires": [
+            [
+                "d9ab7824.7c6578"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "668665.a35cf99c",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "Wi-Fi send",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 2322,
+        "y": 412,
+        "wires": []
+    },
+    {
+        "id": "5f760f4c.a62c1",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "disable Wi-Fi",
+        "method": "POST",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/disable/wlan0",
+        "tls": "",
+        "x": 2076,
+        "y": 661,
+        "wires": [
+            [
+                "dffede07.8bd1e"
+            ]
+        ]
+    },
+    {
+        "id": "dffede07.8bd1e",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2076.5,
+        "y": 723,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "a2b704ba.36f4f8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "setup msg",
+        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2076,
+        "y": 601,
+        "wires": [
+            [
+                "5f760f4c.a62c1"
+            ]
+        ]
+    },
+    {
+        "id": "b2a24ec3.a8681",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "batch store",
+        "func": "var queue = flow.get('queue') || [];\nqueue.push({\n    topic: msg.topic,\n    payload: msg.payload,\n    _msgid: msg._msgid\n});\nflow.set('queue', queue);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 110,
+        "y": 400,
+        "wires": [
+            [
+                "bc8b36b3.25f828"
+            ]
+        ]
+    },
+    {
+        "id": "9b4c9ca9.8a306",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "batch msg",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 110,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "37e806e2.063f5a",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "setup msg",
+        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
+        "outputs": "1",
+        "noerr": 0,
+        "x": 630,
+        "y": 340,
+        "wires": [
+            [
+                "db98f2fe.5d268"
+            ]
+        ]
+    },
+    {
+        "id": "db98f2fe.5d268",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "available network",
+        "method": "GET",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/available/wlan0",
+        "tls": "",
+        "x": 635,
+        "y": 400,
+        "wires": [
+            [
+                "558db50e.94048c"
+            ]
+        ]
+    },
+    {
+        "id": "dc91b3c.1b8865",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "Wi-Fi available?",
+        "property": "availableWifi",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 920,
+        "y": 463,
+        "wires": [
+            [
+                "4fb06697.9d7f68"
+            ],
+            [
+                "3ce10943.809156"
+            ]
+        ]
+    },
+    {
+        "id": "cf969610.08fa18",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "LTE send",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 2311,
+        "y": 504,
+        "wires": []
+    },
+    {
+        "id": "558db50e.94048c",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 630,
+        "y": 460,
+        "wires": [
+            [
+                "ed0a2369.3f3db"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ed0a2369.3f3db",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "setup msg",
+        "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 922,
+        "y": 340,
+        "wires": [
+            [
+                "dc91b3c.1b8865"
+            ]
+        ]
+    },
+    {
+        "id": "40a2c3c.79b7d3c",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "print queue",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 528,
+        "y": 149,
+        "wires": [
+            [
+                "fdca9bb9.f673c8"
+            ]
+        ]
+    },
+    {
+        "id": "9ccac88a.500e78",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.queue",
+        "active": true,
+        "console": "false",
+        "complete": "queue",
+        "x": 894,
+        "y": 149,
+        "wires": []
+    },
+    {
+        "id": "fdca9bb9.f673c8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "copy queue",
+        "func": "msg.queue = flow.get('queue') || [];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 708,
+        "y": 149,
+        "wires": [
+            [
+                "9ccac88a.500e78"
+            ]
+        ]
+    },
+    {
+        "id": "b9358c08.7e1ee",
+        "type": "change",
+        "z": "5553381b.ce0098",
+        "name": "store apikey",
+        "rules": [
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "flow",
+                "to": "a3b901f588b1dfc874eef504f5a5574abc39c8c4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 709,
+        "y": 27,
+        "wires": [
+            [
+                "eb0adea4.bc71a"
+            ]
+        ]
+    },
+    {
+        "id": "2b5f7ad1.3135d6",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "inject apikey",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 529,
+        "y": 27,
+        "wires": [
+            [
+                "b9358c08.7e1ee"
+            ]
+        ]
+    },
+    {
+        "id": "f5d31f70.92efd",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.apikey",
+        "active": true,
+        "console": "false",
+        "complete": "apikey",
+        "x": 1070,
+        "y": 27,
+        "wires": []
+    },
+    {
+        "id": "eb0adea4.bc71a",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "copy apikey",
+        "func": "msg.apikey = flow.get('apikey');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 891,
+        "y": 27,
+        "wires": [
+            [
+                "f5d31f70.92efd"
+            ]
+        ]
+    },
+    {
+        "id": "b2b11413.5619c8",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "inject GPS",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 529,
+        "y": 68,
+        "wires": [
+            [
+                "8f37437f.28a54"
+            ]
+        ]
+    },
+    {
+        "id": "8f37437f.28a54",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "set location",
+        "func": "flow.set('latitude', 45.8311206);\nflow.set('longitude', 9.043277999999999);\n\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 708,
+        "y": 69,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd7a8055.39a3f",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "distance",
+        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\n\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance \" + min_dist);\n\nvar timeout = flow.get('timeout');\n\nif (min_dist < 3 && !timeout) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
+        "outputs": "2",
+        "noerr": 0,
+        "x": 1522,
+        "y": 576,
+        "wires": [
+            [
+                "8ac9de3e.0d25e"
+            ],
+            [
+                "77c0ea16.b077d4"
+            ]
+        ]
+    },
+    {
+        "id": "3ce10943.809156",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "stored networks",
+        "method": "GET",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/networks/db",
+        "tls": "",
+        "x": 1276,
+        "y": 555,
+        "wires": [
+            [
+                "3b58ef11.17c95"
+            ]
+        ]
+    },
+    {
+        "id": "4fb06697.9d7f68",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "reset timer",
+        "func": "clearTimeout(flow.get('timerID'));\nflow.set('timeout', false);\nflow.set('timerID', null);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1273.5,
+        "y": 347,
+        "wires": [
+            [
+                "e1f776c7.c2e1a8"
+            ]
+        ]
+    },
+    {
+        "id": "77c0ea16.b077d4",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "reset timer",
+        "func": "clearTimeout(flow.get('timerID'));\nflow.set('timeout', false);\nflow.set('timerID', null);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1790,
+        "y": 381,
+        "wires": [
+            [
+                "d9ab7824.7c6578"
+            ]
+        ]
+    },
+    {
+        "id": "8ac9de3e.0d25e",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "set timer",
+        "func": "timerID = flow.get('timerID') || setTimeout(function() {\n    flow.set('timeout', true);\n}, 120000);\nflow.set('timerID', timerID);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1782,
+        "y": 660,
+        "wires": [
+            [
+                "a2b704ba.36f4f8"
+            ]
+        ]
+    },
+    {
+        "id": "d0b00129.8de77",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "print timer",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 517.5,
+        "y": 188,
+        "wires": [
+            [
+                "b8baddb8.aa1f5"
+            ]
+        ]
+    },
+    {
+        "id": "b8baddb8.aa1f5",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "copy timer",
+        "func": "msg.timerID = flow.get('timerID');\nmsg.timeout = flow.get('timeout');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 707,
+        "y": 189,
+        "wires": [
+            [
+                "e68637ea.e96548"
+            ]
+        ]
+    },
+    {
+        "id": "e68637ea.e96548",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "flow.timer",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 884,
+        "y": 189,
+        "wires": []
+    },
+    {
+        "id": "d9ab7824.7c6578",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "batch read",
+        "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var lastmsg = queue.shift();\n    flow.set('queue', queue);\n    return lastmsg;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1784,
+        "y": 458,
+        "wires": [
+            [
+                "50339e5.c76706",
+                "a58e3d7b.00d3b"
+            ]
+        ]
+    },
+    {
+        "id": "50339e5.c76706",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "queue length",
+        "property": "queue.length",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1784,
+        "y": 558,
+        "wires": [
+            [
+                "d9ab7824.7c6578"
+            ],
+            [
+                "a2b704ba.36f4f8"
+            ]
+        ]
+    },
+    {
+        "id": "3b58ef11.17c95",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "outputs": 2,
+        "x": 1277,
+        "y": 610,
+        "wires": [
+            [
+                "cd7a8055.39a3f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a58e3d7b.00d3b",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "Wi-Fi available?",
+        "property": "availableWifi",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 2085,
+        "y": 459,
+        "wires": [
+            [
+                "668665.a35cf99c"
+            ],
+            [
+                "cf969610.08fa18"
+            ]
+        ]
+    }
+]
