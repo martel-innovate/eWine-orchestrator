@@ -80,7 +80,6 @@
         "y": 340,
         "wires": [
             [
-                "9b4c9ca9.8a306",
                 "b2a24ec3.a8681"
             ]
         ]
@@ -228,8 +227,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/disable/wlan0",
         "tls": "",
-        "x": 2076,
-        "y": 661,
+        "x": 2077,
+        "y": 678,
         "wires": [
             [
                 "dffede07.8bd1e"
@@ -255,8 +254,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 2076.5,
-        "y": 723,
+        "x": 2077.5,
+        "y": 740,
         "wires": [
             [],
             []
@@ -270,8 +269,8 @@
         "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 2076,
-        "y": 601,
+        "x": 2077,
+        "y": 618,
         "wires": [
             [
                 "5f760f4c.a62c1"
@@ -286,11 +285,12 @@
         "func": "var queue = flow.get('queue') || [];\nqueue.push({\n    topic: msg.topic,\n    payload: msg.payload,\n    _msgid: msg._msgid\n});\nflow.set('queue', queue);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 110,
-        "y": 400,
+        "x": 121,
+        "y": 399,
         "wires": [
             [
-                "bc8b36b3.25f828"
+                "bc8b36b3.25f828",
+                "9b4c9ca9.8a306"
             ]
         ]
     },
@@ -302,8 +302,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 110,
-        "y": 460,
+        "x": 119,
+        "y": 461,
         "wires": []
     },
     {
@@ -356,8 +356,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 920,
-        "y": 463,
+        "x": 938,
+        "y": 461,
         "wires": [
             [
                 "4fb06697.9d7f68"
@@ -415,8 +415,8 @@
         "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 922,
-        "y": 340,
+        "x": 941,
+        "y": 342,
         "wires": [
             [
                 "dc91b3c.1b8865"
@@ -480,7 +480,7 @@
                 "t": "set",
                 "p": "apikey",
                 "pt": "flow",
-                "to": "a3b901f588b1dfc874eef504f5a5574abc39c8c4",
+                "to": "28ee33bb0e539d1dd30a03bec863b4a1f2aa6fe9",
                 "tot": "str"
             }
         ],
@@ -605,8 +605,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/networks/db",
         "tls": "",
-        "x": 1276,
-        "y": 555,
+        "x": 1271,
+        "y": 570,
         "wires": [
             [
                 "3b58ef11.17c95"
@@ -637,8 +637,8 @@
         "func": "clearTimeout(flow.get('timerID'));\nflow.set('timeout', false);\nflow.set('timerID', null);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1790,
-        "y": 381,
+        "x": 1785,
+        "y": 385,
         "wires": [
             [
                 "d9ab7824.7c6578"
@@ -774,8 +774,8 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 1277,
-        "y": 610,
+        "x": 1272,
+        "y": 625,
         "wires": [
             [
                 "cd7a8055.39a3f"
