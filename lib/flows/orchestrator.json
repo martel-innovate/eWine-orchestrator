@@ -31,8 +31,8 @@
         "name": "temperature",
         "sensorid": "28-04168471a4ff",
         "timer": "0.25",
-        "x": 109,
-        "y": 40,
+        "x": 120.25004196166992,
+        "y": 167.5000514984131,
         "wires": [
             [
                 "ff81d48f.8be628"
@@ -48,8 +48,8 @@
         "qos": "1",
         "retain": "false",
         "broker": "be8a0902.f0ab98",
-        "x": 115,
-        "y": 171,
+        "x": 126.25004196166992,
+        "y": 298.5000514984131,
         "wires": []
     },
     {
@@ -60,8 +60,8 @@
         "topic": "temperature",
         "qos": "1",
         "broker": "be8a0902.f0ab98",
-        "x": 107,
-        "y": 262,
+        "x": 118.25004196166992,
+        "y": 389.5000514984131,
         "wires": [
             [
                 "d811ab33.0253b8"
@@ -76,8 +76,8 @@
         "maxTopics": 1,
         "maxMessagesPerTopic": "6",
         "maxDelay": "120000",
-        "x": 120,
-        "y": 340,
+        "x": 131.25004196166992,
+        "y": 467.5000514984131,
         "wires": [
             [
                 "b2a24ec3.a8681"
@@ -92,8 +92,8 @@
         "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 112,
-        "y": 103,
+        "x": 123.25004196166992,
+        "y": 230.5000514984131,
         "wires": [
             [
                 "cd604d1d.33b9c"
@@ -108,8 +108,8 @@
         "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 370,
-        "y": 340,
+        "x": 381.2500419616699,
+        "y": 467.5000514984131,
         "wires": [
             [
                 "30e7601e.e95c2"
@@ -125,8 +125,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/enable/wlan0",
         "tls": "",
-        "x": 370,
-        "y": 400,
+        "x": 381.2500419616699,
+        "y": 527.5000514984131,
         "wires": [
             [
                 "97652429.76c0f8"
@@ -152,8 +152,8 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 370,
-        "y": 460,
+        "x": 381.2500419616699,
+        "y": 587.5000514984131,
         "wires": [
             [
                 "37e806e2.063f5a"
@@ -170,8 +170,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/connect/wlan0:{{{availableWifi}}}:{{{latitude}}}:{{{longitude}}}",
         "tls": "",
-        "x": 1273,
-        "y": 407,
+        "x": 1320,
+        "y": 540,
         "wires": [
             [
                 "7ad990a2.4b717"
@@ -197,26 +197,14 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 1276,
-        "y": 464,
+        "x": 1323,
+        "y": 597,
         "wires": [
             [
                 "d9ab7824.7c6578"
             ],
             []
         ]
-    },
-    {
-        "id": "668665.a35cf99c",
-        "type": "debug",
-        "z": "5553381b.ce0098",
-        "name": "Wi-Fi send",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 2322,
-        "y": 412,
-        "wires": []
     },
     {
         "id": "5f760f4c.a62c1",
@@ -227,8 +215,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/disable/wlan0",
         "tls": "",
-        "x": 2077,
-        "y": 678,
+        "x": 1950,
+        "y": 780,
         "wires": [
             [
                 "dffede07.8bd1e"
@@ -254,8 +242,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 2077.5,
-        "y": 740,
+        "x": 1950.5,
+        "y": 842,
         "wires": [
             [],
             []
@@ -269,8 +257,8 @@
         "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 2077,
-        "y": 618,
+        "x": 1950,
+        "y": 720,
         "wires": [
             [
                 "5f760f4c.a62c1"
@@ -285,8 +273,8 @@
         "func": "var queue = flow.get('queue') || [];\nqueue.push({\n    topic: msg.topic,\n    payload: msg.payload,\n    _msgid: msg._msgid\n});\nflow.set('queue', queue);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 121,
-        "y": 399,
+        "x": 132.25004196166992,
+        "y": 526.5000514984131,
         "wires": [
             [
                 "bc8b36b3.25f828",
@@ -302,8 +290,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 119,
-        "y": 461,
+        "x": 130.25004196166992,
+        "y": 588.5000514984131,
         "wires": []
     },
     {
@@ -314,8 +302,8 @@
         "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
         "outputs": "1",
         "noerr": 0,
-        "x": 630,
-        "y": 340,
+        "x": 641.2500419616699,
+        "y": 467.5000514984131,
         "wires": [
             [
                 "db98f2fe.5d268"
@@ -331,8 +319,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/available/wlan0",
         "tls": "",
-        "x": 635,
-        "y": 400,
+        "x": 646.2500419616699,
+        "y": 527.5000514984131,
         "wires": [
             [
                 "558db50e.94048c"
@@ -356,8 +344,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 938,
-        "y": 461,
+        "x": 1060,
+        "y": 640,
         "wires": [
             [
                 "4fb06697.9d7f68"
@@ -366,18 +354,6 @@
                 "3ce10943.809156"
             ]
         ]
-    },
-    {
-        "id": "cf969610.08fa18",
-        "type": "debug",
-        "z": "5553381b.ce0098",
-        "name": "LTE send",
-        "active": true,
-        "console": "false",
-        "complete": "true",
-        "x": 2311,
-        "y": 504,
-        "wires": []
     },
     {
         "id": "558db50e.94048c",
@@ -398,8 +374,8 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 630,
-        "y": 460,
+        "x": 641.2500419616699,
+        "y": 587.5000514984131,
         "wires": [
             [
                 "ed0a2369.3f3db"
@@ -415,8 +391,8 @@
         "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 941,
-        "y": 342,
+        "x": 970,
+        "y": 500,
         "wires": [
             [
                 "dc91b3c.1b8865"
@@ -434,8 +410,8 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 528,
-        "y": 149,
+        "x": 450,
+        "y": 200,
         "wires": [
             [
                 "fdca9bb9.f673c8"
@@ -450,8 +426,8 @@
         "active": true,
         "console": "false",
         "complete": "queue",
-        "x": 894,
-        "y": 149,
+        "x": 816,
+        "y": 200,
         "wires": []
     },
     {
@@ -462,8 +438,8 @@
         "func": "msg.queue = flow.get('queue') || [];\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 708,
-        "y": 149,
+        "x": 630,
+        "y": 200,
         "wires": [
             [
                 "9ccac88a.500e78"
@@ -480,7 +456,7 @@
                 "t": "set",
                 "p": "apikey",
                 "pt": "flow",
-                "to": "28ee33bb0e539d1dd30a03bec863b4a1f2aa6fe9",
+                "to": "42680d9c1db281e133c82b2ebc60f113b9574325",
                 "tot": "str"
             }
         ],
@@ -489,8 +465,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 709,
-        "y": 27,
+        "x": 641,
+        "y": 78,
         "wires": [
             [
                 "eb0adea4.bc71a"
@@ -508,8 +484,8 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 529,
-        "y": 27,
+        "x": 451,
+        "y": 78,
         "wires": [
             [
                 "b9358c08.7e1ee"
@@ -524,8 +500,8 @@
         "active": true,
         "console": "false",
         "complete": "apikey",
-        "x": 1070,
-        "y": 27,
+        "x": 992,
+        "y": 78,
         "wires": []
     },
     {
@@ -536,8 +512,8 @@
         "func": "msg.apikey = flow.get('apikey');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 891,
-        "y": 27,
+        "x": 813,
+        "y": 78,
         "wires": [
             [
                 "f5d31f70.92efd"
@@ -555,8 +531,8 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "x": 529,
-        "y": 68,
+        "x": 451,
+        "y": 119,
         "wires": [
             [
                 "8f37437f.28a54"
@@ -571,8 +547,8 @@
         "func": "flow.set('latitude', 45.8311206);\nflow.set('longitude', 9.043277999999999);\n\nreturn null;",
         "outputs": 1,
         "noerr": 0,
-        "x": 708,
-        "y": 69,
+        "x": 630,
+        "y": 120,
         "wires": [
             []
         ]
@@ -582,11 +558,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "distance",
-        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\n\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance \" + min_dist);\n\nvar timeout = flow.get('timeout');\n\nif (min_dist < 3 && !timeout) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
+        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\n\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance Km \" + min_dist);\n\nvar timeout = flow.get('timeout');\n\nif (min_dist < 3 && !timeout) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
         "outputs": "2",
         "noerr": 0,
-        "x": 1522,
-        "y": 576,
+        "x": 1540,
+        "y": 820,
         "wires": [
             [
                 "8ac9de3e.0d25e"
@@ -605,8 +581,8 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/networks/db",
         "tls": "",
-        "x": 1271,
-        "y": 570,
+        "x": 1320,
+        "y": 800,
         "wires": [
             [
                 "3b58ef11.17c95"
@@ -621,8 +597,8 @@
         "func": "clearTimeout(flow.get('timerID'));\nflow.set('timeout', false);\nflow.set('timerID', null);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1273.5,
-        "y": 347,
+        "x": 1320.5,
+        "y": 480,
         "wires": [
             [
                 "e1f776c7.c2e1a8"
@@ -635,13 +611,13 @@
         "z": "5553381b.ce0098",
         "name": "reset timer",
         "func": "clearTimeout(flow.get('timerID'));\nflow.set('timeout', false);\nflow.set('timerID', null);\n\nreturn msg;",
-        "outputs": 1,
+        "outputs": "1",
         "noerr": 0,
-        "x": 1785,
-        "y": 385,
+        "x": 1730,
+        "y": 880,
         "wires": [
             [
-                "d9ab7824.7c6578"
+                "ecb8e316.824af"
             ]
         ]
     },
@@ -653,8 +629,8 @@
         "func": "timerID = flow.get('timerID') || setTimeout(function() {\n    flow.set('timeout', true);\n}, 120000);\nflow.set('timerID', timerID);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1782,
-        "y": 660,
+        "x": 1720,
+        "y": 760,
         "wires": [
             [
                 "a2b704ba.36f4f8"
@@ -672,8 +648,8 @@
         "repeat": "",
         "crontab": "",
         "once": false,
-        "x": 517.5,
-        "y": 188,
+        "x": 439.5,
+        "y": 239,
         "wires": [
             [
                 "b8baddb8.aa1f5"
@@ -688,8 +664,8 @@
         "func": "msg.timerID = flow.get('timerID');\nmsg.timeout = flow.get('timeout');\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 707,
-        "y": 189,
+        "x": 629,
+        "y": 240,
         "wires": [
             [
                 "e68637ea.e96548"
@@ -704,8 +680,8 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 884,
-        "y": 189,
+        "x": 806,
+        "y": 240,
         "wires": []
     },
     {
@@ -716,12 +692,11 @@
         "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var lastmsg = queue.shift();\n    flow.set('queue', queue);\n    return lastmsg;\n} else {\n    return null;\n}",
         "outputs": 1,
         "noerr": 0,
-        "x": 1784,
-        "y": 458,
+        "x": 1565.74995803833,
+        "y": 485.4999485015869,
         "wires": [
             [
-                "50339e5.c76706",
-                "a58e3d7b.00d3b"
+                "8004782a.46bef8"
             ]
         ]
     },
@@ -744,8 +719,8 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 1784,
-        "y": 558,
+        "x": 1665.74995803833,
+        "y": 605.4999485015869,
         "wires": [
             [
                 "d9ab7824.7c6578"
@@ -774,8 +749,8 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 1272,
-        "y": 625,
+        "x": 1330,
+        "y": 860,
         "wires": [
             [
                 "cd7a8055.39a3f"
@@ -784,15 +759,63 @@
         ]
     },
     {
-        "id": "a58e3d7b.00d3b",
+        "id": "8004782a.46bef8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "batch send",
+        "func": "node.warn(\"sent over Wi-Fi: \" + flow.get('availableWifi'));\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1745.74995803833,
+        "y": 485.4999485015869,
+        "wires": [
+            [
+                "50339e5.c76706",
+                "9adfa625.6c5968"
+            ]
+        ]
+    },
+    {
+        "id": "9adfa625.6c5968",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "Wi-Fi sent msg",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1955.74995803833,
+        "y": 485.4999485015869,
+        "wires": []
+    },
+    {
+        "id": "6ca9b21e.3db90c",
+        "type": "http request",
+        "z": "5553381b.ce0098",
+        "name": "disable Wi-Fi",
+        "method": "POST",
+        "ret": "obj",
+        "url": "127.0.0.1:5000/disable/wlan0",
+        "tls": "",
+        "x": 1950,
+        "y": 960,
+        "wires": [
+            [
+                "d3bc0397.8f2a5"
+            ]
+        ]
+    },
+    {
+        "id": "d3bc0397.8f2a5",
         "type": "switch",
         "z": "5553381b.ce0098",
-        "name": "Wi-Fi available?",
-        "property": "availableWifi",
-        "propertyType": "flow",
+        "name": "check 200",
+        "property": "payload.code",
+        "propertyType": "msg",
         "rules": [
             {
-                "t": "nnull"
+                "t": "eq",
+                "v": "200",
+                "vt": "num"
             },
             {
                 "t": "else"
@@ -800,15 +823,134 @@
         ],
         "checkall": "true",
         "outputs": 2,
-        "x": 2085,
-        "y": 459,
+        "x": 1950.5,
+        "y": 1022,
         "wires": [
             [
-                "668665.a35cf99c"
+                "84ae4db0.3abd6"
             ],
+            []
+        ]
+    },
+    {
+        "id": "ecb8e316.824af",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "setup msg",
+        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1950,
+        "y": 900,
+        "wires": [
             [
-                "cf969610.08fa18"
+                "6ca9b21e.3db90c"
             ]
         ]
+    },
+    {
+        "id": "5c3f45b9.1a333c",
+        "type": "switch",
+        "z": "5553381b.ce0098",
+        "name": "queue length",
+        "property": "queue.length",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 1590,
+        "y": 1340,
+        "wires": [
+            [
+                "4461e94e.070ae8"
+            ],
+            [
+                "b0f58244.13f3d"
+            ]
+        ]
+    },
+    {
+        "id": "4461e94e.070ae8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "batch read",
+        "func": "var queue = flow.get('queue');\nif (queue.length > 0) {\n    var lastmsg = queue.shift();\n    flow.set('queue', queue);\n    return lastmsg;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1490,
+        "y": 1220,
+        "wires": [
+            [
+                "35accc6d.dc21a4"
+            ]
+        ]
+    },
+    {
+        "id": "35accc6d.dc21a4",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "batch send",
+        "func": "node.warn(\"sent over LTE\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1690,
+        "y": 1220,
+        "wires": [
+            [
+                "5c3f45b9.1a333c",
+                "591268ef.42be58"
+            ]
+        ]
+    },
+    {
+        "id": "84ae4db0.3abd6",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "connect LTE",
+        "func": "node.warn(\"connect LTE\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1270,
+        "y": 1280,
+        "wires": [
+            [
+                "4461e94e.070ae8"
+            ]
+        ]
+    },
+    {
+        "id": "b0f58244.13f3d",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "disable LTE",
+        "func": "node.warn(\"disable LTE\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1830,
+        "y": 1380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "591268ef.42be58",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "LTE sent msg",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1940,
+        "y": 1220,
+        "wires": []
     }
 ]
