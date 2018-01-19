@@ -55,7 +55,7 @@ module.exports = {
     //debugUseColors: true,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    flowFile: 'lib/flows/orchestrator.json',
+    flowFile: 'lib/flows/orchestrator-D2D.json',
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:

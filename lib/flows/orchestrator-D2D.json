@@ -1,0 +1,161 @@
+[
+    {
+        "id": "2d24f03b.b9c7b",
+        "type": "tab",
+        "label": "orchestrator-D2D",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "be8a0902.f0ab98",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    },
+    {
+        "id": "82ffe50e.78a1a8",
+        "type": "ds18b20",
+        "z": "2d24f03b.b9c7b",
+        "name": "temperature",
+        "sensorid": "28-04168471a4ff",
+        "timer": "0.25",
+        "x": 210,
+        "y": 60,
+        "wires": [
+            [
+                "1b7477c7.2868d8"
+            ]
+        ]
+    },
+    {
+        "id": "4d5b8bda.a62cd4",
+        "type": "mqtt out",
+        "z": "2d24f03b.b9c7b",
+        "name": "publisher",
+        "topic": "temperature",
+        "qos": "1",
+        "retain": "false",
+        "broker": "be8a0902.f0ab98",
+        "x": 220,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "1215437a.99e6ed",
+        "type": "mqtt in",
+        "z": "2d24f03b.b9c7b",
+        "name": "subscriber",
+        "topic": "temperature",
+        "qos": "1",
+        "broker": "be8a0902.f0ab98",
+        "x": 500,
+        "y": 220,
+        "wires": [
+            [
+                "5866a7e.5fae558"
+            ]
+        ]
+    },
+    {
+        "id": "5866a7e.5fae558",
+        "type": "batcher",
+        "z": "2d24f03b.b9c7b",
+        "name": "",
+        "maxTopics": 1,
+        "maxMessagesPerTopic": "6",
+        "maxDelay": "120000",
+        "x": 500,
+        "y": 300,
+        "wires": [
+            [
+                "4caa5fe8.1ef5d",
+                "8aca6118.64d78"
+            ]
+        ]
+    },
+    {
+        "id": "1b7477c7.2868d8",
+        "type": "function",
+        "z": "2d24f03b.b9c7b",
+        "name": "add timestamp",
+        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "4d5b8bda.a62cd4"
+            ]
+        ]
+    },
+    {
+        "id": "4caa5fe8.1ef5d",
+        "type": "debug",
+        "z": "2d24f03b.b9c7b",
+        "name": "batch msg",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 730,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "8aca6118.64d78",
+        "type": "file",
+        "z": "2d24f03b.b9c7b",
+        "name": "SCAMPI file",
+        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 500.2500419616699,
+        "y": 387.5000514984131,
+        "wires": []
+    },
+    {
+        "id": "64a8c25a.ee6fac",
+        "type": "file",
+        "z": "2d24f03b.b9c7b",
+        "name": "delete SCAMPI file",
+        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "delete",
+        "x": 750,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3a816017.34c0a",
+        "type": "inject",
+        "z": "2d24f03b.b9c7b",
+        "name": "delete file",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 500,
+        "y": 80,
+        "wires": [
+            [
+                "64a8c25a.ee6fac"
+            ]
+        ]
+    }
+]
