@@ -29,3 +29,4 @@ The rest of the guide explains each logical unit in the picture above in more de
 11. [Send Batch of Data over Wi-Fi](wifi-send.md)
 12. [Send Batch of Data over LTE](lte-send.md)
 13. [Disable Wi-Fi](wifi-disable.md)
+14. [Temp sensor](temp-sensor.md)

@@ -29,46 +29,45 @@ Launch Node-RED with the `--settings|-s` command line argument:
 
 
 
-# Connect DS18b20 to RPI and node-red.
+## Connect DS18b20 to RPI and node-red.
 
-## CONFIGURATION device in GPIO
+*  Configuration device in GPIO
 
-### DS18b20 wire circuit :
+	DS18b20 wire circuit :
 
-	DS18b20 / breadboard (column(from right),row(from bottom) or a10,b22,etc)
-	gnd last, 4th 
-	vcc first, 3rd
-	sig a4
+		DS18b20 / breadboard (column(from right),row(from bottom) or a10,b22,etc)
+		gnd last, 4th 
+		vcc first, 3rd
+		sig a4
 
-![ds18b20](img/wire_circuit/ds18b20.jpg)
-![overview](img/wire_circuit/overview.jpg)
-![Breadborad pin_a4](img/wire_circuit/pin_a4.jpg)
+![ds18b20](doc/img/wire_circuit/ds18b20.jpg)
+![overview](doc/img/wire_circuit/overview.jpg)
+![Breadborad pin_a4](doc/img/wire_circuit/pin_a4.jpg)
 
-### Configuration device in RPI
+*  Configuration device in RPI
 	read the following document from page 11 (pagg. 1-10 not compatible DS18b20 wire circuit) :
 
-	doc/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing.pdf
+		doc/adafruits-raspberry-pi-lesson-11-ds18b20-temperature-sensing.pdf
+		configuration device on RPI: pag. 11-12
+		script Python : pag. 13-15
 
-	configuration device on RPI: pag. 11-12
-	script Python : pag. 13-15
-
-### Configuration device in node-red
-	1)run a bash shell
-	2) npm install node-red-contrib-ds18b20-sensor
-	3) for further information, read the doc here : https://flows.nodered.org/node/node-red-contrib-ds18b20-sensor
+*  Configuration device in node-red
+	1.  run a bash shell
+	2.  npm install node-red-contrib-ds18b20-sensor
+	3.  for further information, read the doc here : https://flows.nodered.org/node/node-red-contrib-ds18b20-sensor
 
 ## LAUNCH ORCHESTRATOR + NODE-RED
 
-1) first shell
-	#launch virt python:
-	eWine-connectivity-manager/wifi_manager/interpreter/python_venv.sh
+1.  first shell
+		#launch virt python:
+		eWine-connectivity-manager/wifi_manager/interpreter/python_venv.sh
 
-2) second shell
-	#activate virt-python:
-	cd eWine-connectivity-manager
-	. .venv/bin/activate
+2.  second shell
+		#activate virt-python:
+		cd eWine-connectivity-manager
+		. .venv/bin/activate
 
-3) third shell
-	#launch node-red
-	cd eWine-orchestrator
-	sudo node-red -s settings.js
+3.  third shell
+		#launch node-red
+		cd eWine-orchestrator
+		sudo node-red -s settings.js
