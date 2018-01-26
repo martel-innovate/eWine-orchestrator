@@ -25,19 +25,29 @@
         "birthPayload": ""
     },
     {
-        "id": "b2367ffe.ec095",
-        "type": "ds18b20",
-        "z": "5553381b.ce0098",
-        "name": "temperature",
-        "sensorid": "28-04168471a4ff",
-        "timer": "0.25",
-        "x": 120.25004196166992,
-        "y": 167.5000514984131,
-        "wires": [
-            [
-                "ff81d48f.8be628"
-            ]
-        ]
+        "id": "ca9d992d.cacdc8",
+        "type": "nodebot",
+        "z": "",
+        "name": "",
+        "username": "",
+        "password": "",
+        "boardType": "raspi-io",
+        "serialportName": "",
+        "connectionType": "local",
+        "mqttServer": "",
+        "socketServer": "",
+        "pubTopic": "",
+        "subTopic": "",
+        "tcpHost": "",
+        "tcpPort": "",
+        "sparkId": "",
+        "sparkToken": "",
+        "beanId": "",
+        "impId": "",
+        "meshbluServer": "https://meshblu.octoblu.com",
+        "uuid": "",
+        "token": "",
+        "sendUuid": ""
     },
     {
         "id": "cd604d1d.33b9c",
@@ -89,7 +99,7 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "add timestamp",
-        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
+        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload,\n    ak:flow.get('apikey')\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 123.25004196166992,
@@ -104,12 +114,12 @@
         "id": "bc8b36b3.25f828",
         "type": "function",
         "z": "5553381b.ce0098",
-        "name": "setup msg",
-        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
+        "name": "header api-key",
+        "func": "msg.payload = {};\nmsg.headers= {\n               'x-api-key': flow.get('apikey'),\n               'content-type': 'application/json'\n            };\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 381.2500419616699,
-        "y": 467.5000514984131,
+        "x": 380,
+        "y": 460,
         "wires": [
             [
                 "30e7601e.e95c2"
@@ -156,9 +166,12 @@
         "y": 587.5000514984131,
         "wires": [
             [
-                "37e806e2.063f5a"
+                "97e96302.307ba",
+                "424666a8.39a5d8"
             ],
-            []
+            [
+                "df3c7cc0.e99be"
+            ]
         ]
     },
     {
@@ -201,9 +214,12 @@
         "y": 597,
         "wires": [
             [
-                "d9ab7824.7c6578"
+                "d9ab7824.7c6578",
+                "1d5ced75.04ef73"
             ],
-            []
+            [
+                "5fb30a10.65c834"
+            ]
         ]
     },
     {
@@ -277,8 +293,8 @@
         "y": 526.5000514984131,
         "wires": [
             [
-                "bc8b36b3.25f828",
-                "9b4c9ca9.8a306"
+                "9b4c9ca9.8a306",
+                "1dad59e5.7aa8c6"
             ]
         ]
     },
@@ -290,25 +306,9 @@
         "active": true,
         "console": "false",
         "complete": "true",
-        "x": 130.25004196166992,
-        "y": 588.5000514984131,
+        "x": 110,
+        "y": 600,
         "wires": []
-    },
-    {
-        "id": "37e806e2.063f5a",
-        "type": "function",
-        "z": "5553381b.ce0098",
-        "name": "setup msg",
-        "func": "msg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\nreturn msg;",
-        "outputs": "1",
-        "noerr": 0,
-        "x": 641.2500419616699,
-        "y": 467.5000514984131,
-        "wires": [
-            [
-                "db98f2fe.5d268"
-            ]
-        ]
     },
     {
         "id": "db98f2fe.5d268",
@@ -348,10 +348,12 @@
         "y": 640,
         "wires": [
             [
-                "4fb06697.9d7f68"
+                "4fb06697.9d7f68",
+                "54bbca6f.145424"
             ],
             [
-                "3ce10943.809156"
+                "3ce10943.809156",
+                "e7ebcaf4.054cf8"
             ]
         ]
     },
@@ -378,9 +380,12 @@
         "y": 587.5000514984131,
         "wires": [
             [
-                "ed0a2369.3f3db"
+                "ed0a2369.3f3db",
+                "4b9168f5.fdcd08"
             ],
-            []
+            [
+                "1c015831.a56688"
+            ]
         ]
     },
     {
@@ -388,11 +393,11 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "setup msg",
-        "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers = {};\nmsg.headers['X-Api-Key'] = flow.get('apikey');\n\nreturn msg;",
+        "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers= {\n               'x-api-key': flow.get('apikey'),\n               'content-type': 'application/json'\n            };\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 970,
-        "y": 500,
+        "x": 1050,
+        "y": 580,
         "wires": [
             [
                 "dc91b3c.1b8865"
@@ -423,7 +428,7 @@
         "type": "debug",
         "z": "5553381b.ce0098",
         "name": "flow.queue",
-        "active": true,
+        "active": false,
         "console": "false",
         "complete": "queue",
         "x": 816,
@@ -447,33 +452,6 @@
         ]
     },
     {
-        "id": "b9358c08.7e1ee",
-        "type": "change",
-        "z": "5553381b.ce0098",
-        "name": "store apikey",
-        "rules": [
-            {
-                "t": "set",
-                "p": "apikey",
-                "pt": "flow",
-                "to": "42680d9c1db281e133c82b2ebc60f113b9574325",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 641,
-        "y": 78,
-        "wires": [
-            [
-                "eb0adea4.bc71a"
-            ]
-        ]
-    },
-    {
         "id": "2b5f7ad1.3135d6",
         "type": "inject",
         "z": "5553381b.ce0098",
@@ -483,8 +461,8 @@
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": true,
-        "x": 451,
+        "once": false,
+        "x": 441,
         "y": 78,
         "wires": [
             [
@@ -497,7 +475,7 @@
         "type": "debug",
         "z": "5553381b.ce0098",
         "name": "flow.apikey",
-        "active": true,
+        "active": false,
         "console": "false",
         "complete": "apikey",
         "x": 992,
@@ -530,8 +508,8 @@
         "payloadType": "bool",
         "repeat": "",
         "crontab": "",
-        "once": true,
-        "x": 451,
+        "once": false,
+        "x": 441,
         "y": 119,
         "wires": [
             [
@@ -677,7 +655,7 @@
         "type": "debug",
         "z": "5553381b.ce0098",
         "name": "flow.timer",
-        "active": true,
+        "active": false,
         "console": "false",
         "complete": "true",
         "x": 806,
@@ -753,9 +731,12 @@
         "y": 860,
         "wires": [
             [
-                "cd7a8055.39a3f"
+                "cd7a8055.39a3f",
+                "4b2853cc.3c74cc"
             ],
-            []
+            [
+                "28db4e29.b375d2"
+            ]
         ]
     },
     {
@@ -952,5 +933,229 @@
         "x": 1940,
         "y": 1220,
         "wires": []
+    },
+    {
+        "id": "8469a381.0741",
+        "type": "rpi-ds18b20",
+        "z": "5553381b.ce0098",
+        "topic": "FFA471841604",
+        "array": false,
+        "name": "Temp. sensor ",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "ff81d48f.8be628"
+            ]
+        ]
+    },
+    {
+        "id": "4903a308.239fdc",
+        "type": "inject",
+        "z": "5553381b.ce0098",
+        "name": "temp interval",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "8469a381.0741"
+            ]
+        ]
+    },
+    {
+        "id": "df3c7cc0.e99be",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "debug enable wifi ko",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 432,
+        "y": 668,
+        "wires": []
+    },
+    {
+        "id": "1c015831.a56688",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "enable avbl network ko",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 750,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "97e96302.307ba",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "debug enable wif ok",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 420,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "4b9168f5.fdcd08",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "debug avbl net ok",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 740,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "54bbca6f.145424",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "wifi available ok",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1070,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "e7ebcaf4.054cf8",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "wifi avlb ko",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1050,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "1d5ced75.04ef73",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "check 200 ok",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1320,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "5fb30a10.65c834",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "check 200 ko",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 1320,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "4b2853cc.3c74cc",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "check 200 ok",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1320,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "28db4e29.b375d2",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "check 200 ko",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 1320,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "1dad59e5.7aa8c6",
+        "type": "change",
+        "z": "5553381b.ce0098",
+        "name": "set apikey",
+        "rules": [
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "flow",
+                "to": "0af2429a25ba8da808f317b880055814a20ef64d",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "bc8b36b3.25f828"
+            ]
+        ]
+    },
+    {
+        "id": "424666a8.39a5d8",
+        "type": "function",
+        "z": "5553381b.ce0098",
+        "name": "header api-key",
+        "func": "msg.payload = {};\nmsg.headers= {\n               'x-api-key': flow.get('apikey'),\n               'content-type': 'application/json'\n            };\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 460,
+        "wires": [
+            [
+                "db98f2fe.5d268"
+            ]
+        ]
+    },
+    {
+        "id": "b9358c08.7e1ee",
+        "type": "change",
+        "z": "5553381b.ce0098",
+        "name": "store apikey",
+        "rules": [
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "flow",
+                "to": "42680d9c1db281e133c82b2ebc60f113b9574325",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 641,
+        "y": 78,
+        "wires": [
+            [
+                "eb0adea4.bc71a"
+            ]
+        ]
     }
 ]

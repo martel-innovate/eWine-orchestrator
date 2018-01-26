@@ -15,6 +15,7 @@ The general logic implemented by the flow is the following:
 
 The rest of the guide explains each logical unit in the picture above in more detail:
 
+0. [Set api-key and header](set-apikey-header.md)
 1. [Publish Sensor Data](sensor-publish.md)
 2. [Store Batch of Data](batch-store.md)
 3. [Enable Wi-Fi](wifi-enable.md)
@@ -28,3 +29,4 @@ The rest of the guide explains each logical unit in the picture above in more de
 11. [Send Batch of Data over Wi-Fi](wifi-send.md)
 12. [Send Batch of Data over LTE](lte-send.md)
 13. [Disable Wi-Fi](wifi-disable.md)
+14. [Temp sensor](temp-sensor.md)
