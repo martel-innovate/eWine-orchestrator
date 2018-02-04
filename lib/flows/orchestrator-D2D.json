@@ -25,21 +25,6 @@
         "birthPayload": ""
     },
     {
-        "id": "82ffe50e.78a1a8",
-        "type": "ds18b20",
-        "z": "2d24f03b.b9c7b",
-        "name": "temperature",
-        "sensorid": "28-04168471a4ff",
-        "timer": "0.25",
-        "x": 210,
-        "y": 60,
-        "wires": [
-            [
-                "1b7477c7.2868d8"
-            ]
-        ]
-    },
-    {
         "id": "4d5b8bda.a62cd4",
         "type": "mqtt out",
         "z": "2d24f03b.b9c7b",
@@ -48,8 +33,8 @@
         "qos": "1",
         "retain": "false",
         "broker": "be8a0902.f0ab98",
-        "x": 220,
-        "y": 220,
+        "x": 170,
+        "y": 340,
         "wires": []
     },
     {
@@ -80,8 +65,8 @@
         "y": 300,
         "wires": [
             [
-                "4caa5fe8.1ef5d",
-                "8aca6118.64d78"
+                "8aca6118.64d78",
+                "4caa5fe8.1ef5d"
             ]
         ]
     },
@@ -89,15 +74,16 @@
         "id": "1b7477c7.2868d8",
         "type": "function",
         "z": "2d24f03b.b9c7b",
-        "name": "add timestamp",
-        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
+        "name": "add timestamp and GPS",
+        "func": "var temp = msg.payload;\nflow.set('latitude','41.7');\nflow.set('longitude','8.9');\n\nmsg.payload=null;\nmsg.payload = {\n    tstamp: new Date().getTime(),\n    data: temp,\n    lat: flow.get('latitude'),\n    long: flow.get('longitude')\n//    ak:flow.get('apikey')\n}\ntemp=null;\n\n//var w = window.open(\"http://localhost:1880/dash\", 'name', 'width=200,height=200'); w.onload = w.print; w.focus();\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 220,
-        "y": 140,
+        "x": 180,
+        "y": 280,
         "wires": [
             [
-                "4d5b8bda.a62cd4"
+                "4d5b8bda.a62cd4",
+                "b52e51b5.1bd65"
             ]
         ]
     },
@@ -119,11 +105,11 @@
         "z": "2d24f03b.b9c7b",
         "name": "SCAMPI file",
         "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
-        "appendNewline": false,
+        "appendNewline": true,
         "createDir": false,
-        "overwriteFile": "true",
-        "x": 500.2500419616699,
-        "y": 387.5000514984131,
+        "overwriteFile": "false",
+        "x": 490,
+        "y": 380,
         "wires": []
     },
     {
@@ -156,6 +142,101 @@
             [
                 "64a8c25a.ee6fac"
             ]
+        ]
+    },
+    {
+        "id": "3606efb0.2cb44",
+        "type": "rpi-ds18b20",
+        "z": "2d24f03b.b9c7b",
+        "topic": "FFA471841604",
+        "array": false,
+        "name": "",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "1b7477c7.2868d8"
+            ]
+        ]
+    },
+    {
+        "id": "ba179282.2991a",
+        "type": "inject",
+        "z": "2d24f03b.b9c7b",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "3606efb0.2cb44"
+            ]
+        ]
+    },
+    {
+        "id": "c55ab27b.82a5b",
+        "type": "http in",
+        "z": "2d24f03b.b9c7b",
+        "name": "get",
+        "url": "/print",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 159,
+        "y": 562,
+        "wires": [
+            [
+                "4791bea0.f3c05"
+            ]
+        ]
+    },
+    {
+        "id": "bba2d9d1.eecdb8",
+        "type": "http response",
+        "z": "2d24f03b.b9c7b",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 503,
+        "y": 545,
+        "wires": []
+    },
+    {
+        "id": "4791bea0.f3c05",
+        "type": "template",
+        "z": "2d24f03b.b9c7b",
+        "name": "webpage",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\n\n<html>\n    <head>\n        \n        \n    </head>\n    <body>\n        Timestamp: {{msg.payload[0].tstamp}} <p/>\n        Temperature: {{msg.payload[0].data}}\n        <script>\n            window.onload = window.print();\n        </script>\n        \n    </body>\n</html>",
+        "output": "str",
+        "x": 355,
+        "y": 595,
+        "wires": [
+            [
+                "bba2d9d1.eecdb8"
+            ]
+        ]
+    },
+    {
+        "id": "b52e51b5.1bd65",
+        "type": "iot-datasource",
+        "z": "2d24f03b.b9c7b",
+        "name": "graph",
+        "tstampField": "",
+        "dataField": "",
+        "disableDiscover": false,
+        "x": 319,
+        "y": 359,
+        "wires": [
+            []
         ]
     }
 ]

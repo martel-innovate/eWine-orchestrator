@@ -98,11 +98,11 @@
         "id": "ff81d48f.8be628",
         "type": "function",
         "z": "5553381b.ce0098",
-        "name": "add timestamp",
-        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload,\n    ak:flow.get('apikey')\n}\n\nreturn msg;",
+        "name": "add timestamp and gps",
+        "func": "var temp = msg.payload;\nflow.set('latitude','41.7');\nflow.set('longitude','8.9');\n\nmsg.payload=null;\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: temp,\n    lat: flow.get('latitude'),\n    long: flow.get('longitude')\n//    ak:flow.get('apikey')\n}\n\ntemp=null;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 123.25004196166992,
+        "x": 153.25004196166992,
         "y": 230.5000514984131,
         "wires": [
             [
@@ -147,7 +147,7 @@
         "id": "97652429.76c0f8",
         "type": "switch",
         "z": "5553381b.ce0098",
-        "name": "check 200",
+        "name": "Wi-Fi  enabled?",
         "property": "payload.code",
         "propertyType": "msg",
         "rules": [
@@ -162,7 +162,7 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 381.2500419616699,
+        "x": 391.2500419616699,
         "y": 587.5000514984131,
         "wires": [
             [
@@ -218,7 +218,8 @@
                 "1d5ced75.04ef73"
             ],
             [
-                "5fb30a10.65c834"
+                "5fb30a10.65c834",
+                "a2b704ba.36f4f8"
             ]
         ]
     },
@@ -319,41 +320,12 @@
         "ret": "obj",
         "url": "127.0.0.1:5000/available/wlan0",
         "tls": "",
-        "x": 646.2500419616699,
-        "y": 527.5000514984131,
+        "x": 650,
+        "y": 520,
         "wires": [
             [
-                "558db50e.94048c"
-            ]
-        ]
-    },
-    {
-        "id": "dc91b3c.1b8865",
-        "type": "switch",
-        "z": "5553381b.ce0098",
-        "name": "Wi-Fi available?",
-        "property": "availableWifi",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "nnull"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "true",
-        "outputs": 2,
-        "x": 1060,
-        "y": 640,
-        "wires": [
-            [
-                "4fb06697.9d7f68",
-                "54bbca6f.145424"
-            ],
-            [
-                "3ce10943.809156",
-                "e7ebcaf4.054cf8"
+                "ed0a2369.3f3db",
+                "da1c2ddb.99ac1"
             ]
         ]
     },
@@ -361,8 +333,8 @@
         "id": "558db50e.94048c",
         "type": "switch",
         "z": "5553381b.ce0098",
-        "name": "check 200",
-        "property": "payload.code",
+        "name": "wifi available?",
+        "property": "statusCode",
         "propertyType": "msg",
         "rules": [
             {
@@ -376,15 +348,16 @@
         ],
         "checkall": "false",
         "outputs": 2,
-        "x": 641.2500419616699,
-        "y": 587.5000514984131,
+        "x": 700,
+        "y": 640,
         "wires": [
             [
-                "ed0a2369.3f3db",
-                "4b9168f5.fdcd08"
+                "4b9168f5.fdcd08",
+                "4fb06697.9d7f68"
             ],
             [
-                "1c015831.a56688"
+                "1c015831.a56688",
+                "3ce10943.809156"
             ]
         ]
     },
@@ -393,14 +366,14 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "setup msg",
-        "func": "// set available Wi-Fi network\nif (msg.payload.message === '') {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n} else {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n}\n\n// set location\nmsg.latitude = flow.get('latitude');\nmsg.longitude = flow.get('longitude');\n\n// set API key\nmsg.payload = {};\nmsg.headers= {\n               'x-api-key': flow.get('apikey'),\n               'content-type': 'application/json'\n            };\n\nreturn msg;",
+        "func": "// set available Wi-Fi network\n//node.warn(\"code: \"+msg.statusCode);\n//if (msg.payload.code != 200) {\nif (msg.statusCode == 200) {\n    msg.availableWifi = msg.payload.message;\n    flow.set('availableWifi', msg.payload.message);\n    msg.availableLTE = 404;\n    flow.set('availableLTE', '404');\n    \n    //msg.availableWifi = null;\n    //flow.set('availableWifi', null);\n    //msg.availableLTE = msg.payload;\n    //flow.set('availableLTE', msg.payload);\n} else {\n    msg.availableWifi = null;\n    flow.set('availableWifi', null);\n    msg.availableLTE = 200;\n    flow.set('availableLTE', '200');\n    \n}\n\n// set location\n//msg.payload.latitude = flow.get('latitude');\n//msg.payload.longitude = flow.get('longitude');\n\n// set API key\n//msg.payload = {};\nmsg.headers= {\n               'x-api-key': flow.get('apikey'),\n               'content-type': 'application/json'\n            };\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 1050,
+        "x": 690,
         "y": 580,
         "wires": [
             [
-                "dc91b3c.1b8865"
+                "558db50e.94048c"
             ]
         ]
     },
@@ -536,7 +509,7 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "distance",
-        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\n\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance Km \" + min_dist);\n\nvar timeout = flow.get('timeout');\n\nif (min_dist < 3 && !timeout) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
+        "func": "function degreesToRadians(degrees) {\n  return degrees * Math.PI / 180;\n}\n\nfunction distanceInKm(lat1, lon1, lat2, lon2) {\n    var earthRadiusKm = 6371;\n\n    var dLat = degreesToRadians(lat2-lat1);\n    var dLon = degreesToRadians(lon2-lon1);\n    \n    lat1 = degreesToRadians(lat1);\n    lat2 = degreesToRadians(lat2);\n    \n    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + \n            Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);\n    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n    \n    return earthRadiusKm * c;\n}\n\nvar min_dist = 100;\nvar networks = msg.payload.message;\nnode.warn(\"networks\" + JSON.stringify(networks));\nfor (var i = 0; i < networks.length; i++) {\n    var net = networks[i];\n    var dist = distanceInKm(msg.latitude, msg.longitude, net.lat, net.lng);\n    if (dist < min_dist) {\n        min_dist = dist;\n    }\n}\n\nnode.warn(\"minimum distance Km \" + min_dist);\n\nvar timeout = flow.get('timeout');\n\nif (min_dist < 3 && !timeout) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
         "outputs": "2",
         "noerr": 0,
         "x": 1540,
@@ -880,7 +853,7 @@
         "type": "function",
         "z": "5553381b.ce0098",
         "name": "batch send",
-        "func": "node.warn(\"sent over LTE\");\n\nreturn msg;",
+        "func": "//node.warn(\"sent over LTE\");\nnode.warn(\"sent over LTE: \" + JSON.stringify(flow.get('availableLTE')));\n//node.warn(\"sent over LTE: \" + msg.payload[0]);\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 1690,
@@ -957,7 +930,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": true,
         "x": 120,
@@ -985,11 +958,11 @@
         "type": "debug",
         "z": "5553381b.ce0098",
         "name": "enable avbl network ko",
-        "active": false,
+        "active": true,
         "console": "false",
         "complete": "true",
-        "x": 750,
-        "y": 640,
+        "x": 730,
+        "y": 700,
         "wires": []
     },
     {
@@ -1012,32 +985,8 @@
         "active": false,
         "console": "false",
         "complete": "true",
-        "x": 740,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "54bbca6f.145424",
-        "type": "debug",
-        "z": "5553381b.ce0098",
-        "name": "wifi available ok",
-        "active": false,
-        "console": "false",
-        "complete": "true",
-        "x": 1070,
-        "y": 680,
-        "wires": []
-    },
-    {
-        "id": "e7ebcaf4.054cf8",
-        "type": "debug",
-        "z": "5553381b.ce0098",
-        "name": "wifi avlb ko",
-        "active": false,
-        "console": "false",
-        "complete": "true",
-        "x": 1050,
-        "y": 720,
+        "x": 720,
+        "y": 760,
         "wires": []
     },
     {
@@ -1081,7 +1030,7 @@
         "type": "debug",
         "z": "5553381b.ce0098",
         "name": "check 200 ko",
-        "active": false,
+        "active": true,
         "console": "false",
         "complete": "true",
         "x": 1320,
@@ -1098,7 +1047,7 @@
                 "t": "set",
                 "p": "apikey",
                 "pt": "flow",
-                "to": "0af2429a25ba8da808f317b880055814a20ef64d",
+                "to": " a880331bdd1e5f882a37865e126e779196ee0007",
                 "tot": "str"
             }
         ],
@@ -1157,5 +1106,17 @@
                 "eb0adea4.bc71a"
             ]
         ]
+    },
+    {
+        "id": "da1c2ddb.99ac1",
+        "type": "debug",
+        "z": "5553381b.ce0098",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 906,
+        "y": 405,
+        "wires": []
     }
 ]
