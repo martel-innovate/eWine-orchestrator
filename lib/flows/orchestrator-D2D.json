@@ -59,14 +59,16 @@
         "z": "2d24f03b.b9c7b",
         "name": "",
         "maxTopics": 1,
-        "maxMessagesPerTopic": "6",
+        "maxMessagesPerTopic": "1",
         "maxDelay": "120000",
         "x": 500,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
+                "4caa5fe8.1ef5d",
+                "901d8b4b.735638",
                 "8aca6118.64d78",
-                "4caa5fe8.1ef5d"
+                "50c1427.ddab9bc"
             ]
         ]
     },
@@ -74,16 +76,15 @@
         "id": "1b7477c7.2868d8",
         "type": "function",
         "z": "2d24f03b.b9c7b",
-        "name": "add timestamp and GPS",
-        "func": "var temp = msg.payload;\nflow.set('latitude','41.7');\nflow.set('longitude','8.9');\n\nmsg.payload=null;\nmsg.payload = {\n    tstamp: new Date().getTime(),\n    data: temp,\n    lat: flow.get('latitude'),\n    long: flow.get('longitude')\n//    ak:flow.get('apikey')\n}\ntemp=null;\n\n//var w = window.open(\"http://localhost:1880/dash\", 'name', 'width=200,height=200'); w.onload = w.print; w.focus();\nreturn msg;\n",
+        "name": "add timestamp",
+        "func": "var temp = msg.payload;\n\nmsg.payload=null;\nmsg.payload = {\n    tstamp: new Date().getTime(),\n    temp: temp,\n    humidity:msg.humidity\n    }\ntemp=null;\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 180,
+        "x": 140,
         "y": 280,
         "wires": [
             [
-                "4d5b8bda.a62cd4",
-                "b52e51b5.1bd65"
+                "4d5b8bda.a62cd4"
             ]
         ]
     },
@@ -93,23 +94,25 @@
         "z": "2d24f03b.b9c7b",
         "name": "batch msg",
         "active": true,
-        "console": "false",
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
         "complete": "true",
         "x": 730,
-        "y": 300,
+        "y": 280,
         "wires": []
     },
     {
         "id": "8aca6118.64d78",
         "type": "file",
         "z": "2d24f03b.b9c7b",
-        "name": "SCAMPI file",
-        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
+        "name": "json file for SCAMPI",
+        "filename": "/home/pi/eWine-orchestrator/sensor-data.json",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "false",
-        "x": 490,
-        "y": 380,
+        "x": 540,
+        "y": 360,
         "wires": []
     },
     {
@@ -117,7 +120,7 @@
         "type": "file",
         "z": "2d24f03b.b9c7b",
         "name": "delete SCAMPI file",
-        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
+        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/temperature_images/sensor-data.json",
         "appendNewline": false,
         "createDir": false,
         "overwriteFile": "delete",
@@ -145,13 +148,49 @@
         ]
     },
     {
-        "id": "3606efb0.2cb44",
-        "type": "rpi-ds18b20",
+        "id": "ba179282.2991a",
+        "type": "inject",
         "z": "2d24f03b.b9c7b",
-        "topic": "FFA471841604",
-        "array": false,
         "name": "",
-        "x": 140,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "1ad47136.38e81f"
+            ]
+        ]
+    },
+    {
+        "id": "b52e51b5.1bd65",
+        "type": "iot-datasource",
+        "z": "2d24f03b.b9c7b",
+        "name": "graph temp",
+        "tstampField": "",
+        "dataField": "temp",
+        "disableDiscover": false,
+        "x": 930,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ad47136.38e81f",
+        "type": "rpi-dht22",
+        "z": "2d24f03b.b9c7b",
+        "name": "humidity+temperature sensor",
+        "topic": "rpi-dht11",
+        "dht": "11",
+        "pintype": "0",
+        "pin": "17",
+        "x": 220,
         "y": 200,
         "wires": [
             [
@@ -160,83 +199,53 @@
         ]
     },
     {
-        "id": "ba179282.2991a",
-        "type": "inject",
-        "z": "2d24f03b.b9c7b",
-        "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "x": 110,
-        "y": 120,
-        "wires": [
-            [
-                "3606efb0.2cb44"
-            ]
-        ]
-    },
-    {
-        "id": "c55ab27b.82a5b",
-        "type": "http in",
-        "z": "2d24f03b.b9c7b",
-        "name": "get",
-        "url": "/print",
-        "method": "get",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 159,
-        "y": 562,
-        "wires": [
-            [
-                "4791bea0.f3c05"
-            ]
-        ]
-    },
-    {
-        "id": "bba2d9d1.eecdb8",
-        "type": "http response",
-        "z": "2d24f03b.b9c7b",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 503,
-        "y": 545,
-        "wires": []
-    },
-    {
-        "id": "4791bea0.f3c05",
-        "type": "template",
-        "z": "2d24f03b.b9c7b",
-        "name": "webpage",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "handlebars",
-        "syntax": "mustache",
-        "template": "\n\n<html>\n    <head>\n        \n        \n    </head>\n    <body>\n        Timestamp: {{msg.payload[0].tstamp}} <p/>\n        Temperature: {{msg.payload[0].data}}\n        <script>\n            window.onload = window.print();\n        </script>\n        \n    </body>\n</html>",
-        "output": "str",
-        "x": 355,
-        "y": 595,
-        "wires": [
-            [
-                "bba2d9d1.eecdb8"
-            ]
-        ]
-    },
-    {
-        "id": "b52e51b5.1bd65",
+        "id": "ca8920cf.873f",
         "type": "iot-datasource",
         "z": "2d24f03b.b9c7b",
-        "name": "graph",
+        "name": "graph humidity",
         "tstampField": "",
-        "dataField": "",
+        "dataField": "humidity",
         "disableDiscover": false,
-        "x": 319,
-        "y": 359,
+        "x": 1060,
+        "y": 460,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "50c1427.ddab9bc",
+        "type": "exec",
+        "z": "2d24f03b.b9c7b",
+        "command": "/usr/bin/sudo",
+        "addpay": false,
+        "append": "sh /home/pi/eWine-orchestrator/bash_files/scp_json.sh",
+        "useSpawn": "false",
+        "timer": "10",
+        "oldrc": false,
+        "name": "",
+        "x": 840,
+        "y": 220,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "901d8b4b.735638",
+        "type": "function",
+        "z": "2d24f03b.b9c7b",
+        "name": "split temp and hdt data",
+        "func": "msg.payload = JSON.parse(msg.payload[0]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 970,
+        "y": 340,
+        "wires": [
+            [
+                "b52e51b5.1bd65",
+                "ca8920cf.873f"
+            ]
         ]
     }
 ]
