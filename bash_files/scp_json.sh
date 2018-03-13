@@ -1,11 +1,17 @@
 #! /bin/bash
 
-#Conversion data from json to chart
+#copy temp images to this RPI
+cp /home/pi/Downloads/temperature*.png /home/pi/eWine-orchestrator/temperature_files/
 
-#temp conv
+#remove temperature files
+#rm -rf /home/pi/Downloads/temperature*.png
 
-
-#humidity conv
+#sync folder with scampi folder
+rsync -aP /home/pi/eWine-orchestrator/temperature_files/ /home/pi/Scampi\ App\ Developer\ Package\ 0.4.1b/bin/java/FileTransfer/files/temperature_images
 
 #copy humidity images to the other RPI
-scp -r -i /home/pi/.ssh/id_rsa /home/pi/eWine-orchestrator/humidity_image_files pi@192.168.2.20:/home/pi/Scampi\ App\ Developer\ Package\ 0.4.1b/bin/java/FileTransfer/files/
+scp -i /home/pi/.ssh/id_rsa /home/pi/Downloads/humidity*.png pi@192.168.2.20:/home/pi/Downloads/humidity_images/
+
+#remove humidity files
+#rm -rf /home/pi/Downloads/humidity*.png
+
