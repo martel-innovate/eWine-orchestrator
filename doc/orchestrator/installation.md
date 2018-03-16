@@ -27,8 +27,6 @@ Launch Node-RED with the `--settings|-s` command line argument:
 [1]:https://nodered.org/#get-started
 [2]:https://nodered.org/docs/configuration
 
-
-
 ## Connect DS18b20 to RPI and node-red.
 
 *  Configuration device in GPIO

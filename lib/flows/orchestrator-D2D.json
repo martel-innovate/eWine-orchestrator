@@ -254,7 +254,6 @@
         "wires": [
             [
                 "4caa5fe8.1ef5d",
-                "901d8b4b.735638",
                 "8aca6118.64d78",
                 "50c1427.ddab9bc"
             ]
@@ -311,7 +310,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "repeat": "15",
+        "repeat": "",
         "crontab": "",
         "once": true,
         "onceDelay": "",
@@ -321,20 +320,6 @@
             [
                 "1ad47136.38e81f"
             ]
-        ]
-    },
-    {
-        "id": "b52e51b5.1bd65",
-        "type": "iot-datasource",
-        "z": "2d24f03b.b9c7b",
-        "name": "graph temp",
-        "tstampField": "",
-        "dataField": "temp",
-        "disableDiscover": false,
-        "x": 930,
-        "y": 400,
-        "wires": [
-            []
         ]
     },
     {
@@ -352,20 +337,6 @@
             [
                 "1b7477c7.2868d8"
             ]
-        ]
-    },
-    {
-        "id": "ca8920cf.873f",
-        "type": "iot-datasource",
-        "z": "2d24f03b.b9c7b",
-        "name": "graph humidity",
-        "tstampField": "",
-        "dataField": "humidity",
-        "disableDiscover": false,
-        "x": 1060,
-        "y": 460,
-        "wires": [
-            []
         ]
     },
     {
@@ -388,23 +359,6 @@
         ]
     },
     {
-        "id": "901d8b4b.735638",
-        "type": "function",
-        "z": "2d24f03b.b9c7b",
-        "name": "split temp and hdt data",
-        "func": "msg.payload = JSON.parse(msg.payload[0]);\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 970,
-        "y": 340,
-        "wires": [
-            [
-                "b52e51b5.1bd65",
-                "ca8920cf.873f"
-            ]
-        ]
-    },
-    {
         "id": "421c145b.47c6bc",
         "type": "template",
         "z": "2d24f03b.b9c7b",
@@ -415,8 +369,8 @@
         "syntax": "mustache",
         "template": "<!doctype html>\n<html>\n\n<head>\n    <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Line Chart</title>\n\t<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\" integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\" crossorigin=\"anonymous\"></script>\n\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js\"></script>\n\t\n\t\n\t<style>\n\tcanvas{\n\t\t-moz-user-select: none;\n\t\t-webkit-user-select: none;\n\t\t-ms-user-select: none;\n\t}\n\t</style>\n</head>\n\n<body>\n    \n    \t<div style=\"width:75%;\">\n\t\t<canvas id=\"canvas\"></canvas>\n                <img id=\"url_img\" />\n                <a id =\"url_a\" href=\"#\" download=\"temperature.png\">Download</a>\n\t</div>\n\t<br>\n\t<br>\n\t\n    \n\t<script>\n\t'use strict';\n\tvar temp=0;\n\tvar hum = 0;\n//node.warn('temp: '+msg.payload.temp);\n\n\nwindow.chartColors = {\n\tred: 'rgb(255, 99, 132)',\n\torange: 'rgb(255, 159, 64)',\n\tyellow: 'rgb(255, 205, 86)',\n\tgreen: 'rgb(75, 192, 192)',\n\tblue: 'rgb(54, 162, 235)',\n\tpurple: 'rgb(153, 102, 255)',\n\tgrey: 'rgb(201, 203, 207)'\n};\n\n(function(global) {\n\tvar Months = [\n\t\t'January',\n\t\t'February',\n\t\t'March',\n\t\t'April',\n\t\t'May',\n\t\t'June',\n\t\t'July',\n\t\t'August',\n\t\t'September',\n\t\t'October',\n\t\t'November',\n\t\t'December'\n\t];\n\n\tvar COLORS = [\n\t\t'#4dc9f6',\n\t\t'#f67019',\n\t\t'#f53794',\n\t\t'#537bc4',\n\t\t'#acc236',\n\t\t'#166a8f',\n\t\t'#00a950',\n\t\t'#58595b',\n\t\t'#8549ba'\n\t];\n\n\tvar Samples = global.Samples || (global.Samples = {});\n\tvar Color = global.Color;\n\n\tSamples.utils = {\n\t\t// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/\n\t\tsrand: function(seed) {\n\t\t\tthis._seed = seed;\n\t\t},\n\n\t\trand: function(min, max) {\n\t\t\tvar seed = this._seed;\n\t\t\tmin = min === undefined ? 0 : min;\n\t\t\tmax = max === undefined ? 1 : max;\n\t\t\tthis._seed = (seed * 9301 + 49297) % 233280;\n\t\t\treturn min + (this._seed / 233280) * (max - min);\n\t\t},\n\n\t\tnumbers: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 1;\n\t\t\tvar from = cfg.from || [];\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar continuity = cfg.continuity || 1;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar data = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = (from[i] || 0) + this.rand(min, max);\n\t\t\t\tif (this.rand() <= continuity) {\n\t\t\t\t\tdata.push(Math.round(dfactor * value) / dfactor);\n\t\t\t\t} else {\n\t\t\t\t\tdata.push(null);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tlabels: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 100;\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar step = (max - min) / count;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar prefix = cfg.prefix || '';\n\t\t\tvar values = [];\n\t\t\tvar i;\n\n\t\t\tfor (i = min; i < max; i += step) {\n\t\t\t\tvalues.push(prefix + Math.round(dfactor * i) / dfactor);\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tmonths: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar count = cfg.count || 12;\n\t\t\tvar section = cfg.section;\n\t\t\tvar values = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = Months[Math.ceil(i) % 12];\n\t\t\t\tvalues.push(value.substring(0, section));\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tcolor: function(index) {\n\t\t\treturn COLORS[index % COLORS.length];\n\t\t},\n\n\t\ttransparentize: function(color, opacity) {\n\t\t\tvar alpha = opacity === undefined ? 0.5 : 1 - opacity;\n\t\t\treturn Color(color).alpha(alpha).rgbString();\n\t\t}\n\t};\n\n\t// DEPRECATED\n\twindow.randomScalingFactor = function() {\n\t\treturn Math.round(Samples.utils.rand(-100, 100));\n\t};\n\n\t// INITIALIZATION\n\n\tSamples.utils.srand(Date.now());\n\n\n\n}(this));\n\n\n\n\n\n\n\n\n\n\t\tvar config = {\n\t\t\ttype: 'line',\n\t\t\tdata: {\n\t\t\t\tlabels: [tstampToHuman(10),tstampToHuman(9),tstampToHuman(8),tstampToHuman(7),tstampToHuman(6),tstampToHuman(5),tstampToHuman(4),tstampToHuman(3),tstampToHuman(2),tstampToHuman(1)],\n\t\t\t\tdatasets: [{\n\t\t\t\t\tlabel: 'Temperature in Celsius degrees',\n\t\t\t\t\tbackgroundColor: window.chartColors.red,\n\t\t\t\t\tborderColor: window.chartColors.red,\n\t\t\t\t\tdata: [\n                                            0,0,0,0,0,0,0,0,0,0\n\t\t\t\t\t],\n\t\t\t\t\tfill: false\n                                        \n\t\t\t\t}]\n\t\t\t},\n\t\t\toptions: {\n\t\t\t\tresponsive: true,\n\t\t\t\ttitle: {\n\t\t\t\t\tdisplay: true,\n\t\t\t\t\ttext: 'Chart.js Line Chart'\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tmode: 'index',\n\t\t\t\t\tintersect: false,\n\t\t\t\t},\n\t\t\t\thover: {\n\t\t\t\t\tmode: 'nearest',\n\t\t\t\t\tintersect: true\n\t\t\t\t},\n\t\t\t\tscales: {\n\t\t\t\t\txAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: 'time'\n\t\t\t\t\t\t}\n\t\t\t\t\t}],\n\t\t\t\t\tyAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: '°C Degrees'\n\t\t\t\t\t\t}\n\t\t\t\t\t}]\n\t\t\t\t},\n                                onAnimationProgess: done\n                                \n\t\t\t}\n\t\t};\n\n\t\twindow.onload = function() {\n\t\t\tvar ctx = document.getElementById('canvas').getContext('2d');\n\t\t\twindow.myLine = new Chart(ctx, config);\n\t\t};\n\n\n\n\n\t\tfunction done(data){\n  console.log(\"haha\");\n  var url=data;\n  //document.getElementById(\"url_img\").src=url;\n  document.getElementById(\"url_a\").href=url;\n  document.getElementById('url_a').click();\n  \n  }\n\n\n\n\n\n\n\t\tvar colorNames = Object.keys(window.chartColors);\n                \n                setInterval(function(){dataUpdate(temp)},30000);\n\t\t\n                function dataUpdate(data){\n\t\t\tif (config.data.datasets.length > 0) {\n                                var time = tstampToHuman();\n                                config.data.labels.shift();\n\t\t\t\tconfig.data.labels.push(time);\n\n\t\t\t\tconfig.data.datasets.forEach(function(dataset) {\n                                    dataset.data.shift();\n                                    dataset.data.push(data);\n\t\t\t\t});\n\t\t\t\n\t\t\t\twindow.myLine.update();\n                                done(window.myLine.toBase64Image());\n                                //console.log(window.myLine.toBase64Image());\n\t\t\t}\n                }\n\t\t                \n                function tstampToHuman(sec=0){\n                    \n                    var date = new Date()\n                    // Hours part from the timestamp\n                    var hours = date.getHours();\n                    // Minutes part from the timestamp\n                    var minutes = \"0\" + date.getMinutes();\n                    // Seconds part from the timestamp\n                    var seconds = \"0\" + date.getSeconds();\n\n                    // Will display time in 10:30:23 format\n                    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + (seconds.substr(-2)-sec);\n                    return formattedTime;\n                    }\n                    \n                    \n$(document).ready(function(){\n    setInterval(function(){retrieveJson()},20000);\n\n    function retrieveJson () {$.ajax({\n\t\t  type: 'GET',\n//\t\t  url: 'http://www.xampp-json.org/json/sensor-data.json',\n\t\t  url: 'http://www.xampp-json.org/index.php',\n//\t\tdata: { get_param: 'value' }, \n\t\t  async: true,\n                  crossDoamin:true,\n\t\t  beforeSend: function (xhr) {\n\t\t    if (xhr && xhr.overrideMimeType) {\n\t\t      xhr.overrideMimeType('application/json;charset=utf-8');\n\t\t    }\n\t\t  },\n\t\t  dataType: 'json',\n\t\t  success: function (data) {\n\t\t    //Do stuff with the JSON data\n            console.log('result: '+JSON.stringify(data));\n            //console.log(data.ts);\n\t\t\t//$.each(data, function(index, element) {\n            //\t\tconsole.log(index+element);\n\t\t      //  });\n\t\t  data = JSON.parse(data);\n            temp = data.temp;\n\t\t  }\n\t\t});\n\n    }\n});\n             \n\t</script>\n\n</body>\n\n</html>",
         "output": "str",
-        "x": 490,
-        "y": 540,
+        "x": 510,
+        "y": 440,
         "wires": [
             [
                 "bd689ebc.9d979",
@@ -431,8 +385,8 @@
         "name": "status code",
         "statusCode": "",
         "headers": {},
-        "x": 710,
-        "y": 540,
+        "x": 730,
+        "y": 440,
         "wires": []
     },
     {
@@ -444,8 +398,8 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
-        "y": 540,
+        "x": 150,
+        "y": 440,
         "wires": [
             [
                 "421c145b.47c6bc"
@@ -462,8 +416,8 @@
         "console": false,
         "tostatus": false,
         "complete": "true",
-        "x": 720,
-        "y": 600,
+        "x": 740,
+        "y": 500,
         "wires": []
     },
     {
@@ -573,8 +527,8 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 660,
+        "x": 150,
+        "y": 580,
         "wires": [
             [
                 "ff584a84.547068"
@@ -589,7 +543,7 @@
         "statusCode": "",
         "headers": {},
         "x": 730,
-        "y": 660,
+        "y": 580,
         "wires": []
     },
     {
@@ -602,8 +556,8 @@
         "console": false,
         "tostatus": false,
         "complete": "true",
-        "x": 710,
-        "y": 720,
+        "x": 750,
+        "y": 640,
         "wires": []
     },
     {
@@ -617,8 +571,8 @@
         "syntax": "mustache",
         "template": "<!doctype html>\n<html>\n\n<head>\n    <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Line Chart</title>\n\t<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\" integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\" crossorigin=\"anonymous\"></script>\n\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js\"></script>\n\t\n\t\n\t<style>\n\tcanvas{\n\t\t-moz-user-select: none;\n\t\t-webkit-user-select: none;\n\t\t-ms-user-select: none;\n\t}\n\t</style>\n</head>\n\n<body>\n    \n    \t<div style=\"width:75%;\">\n\t\t<canvas id=\"canvas\"></canvas>\n                <img id=\"url_img\" />\n                <a id =\"url_a\" href=\"#\" download=\"humidity.png\">Download</a>\n\t</div>\n\t<br>\n\t<br>\n\t\n    \n\t<script>\n\t'use strict';\n\t\n\tvar humidity = 0;\n\n\nwindow.chartColors = {\n\tred: 'rgb(255, 99, 132)',\n\torange: 'rgb(255, 159, 64)',\n\tyellow: 'rgb(255, 205, 86)',\n\tgreen: 'rgb(75, 192, 192)',\n\tblue: 'rgb(54, 162, 235)',\n\tpurple: 'rgb(153, 102, 255)',\n\tgrey: 'rgb(201, 203, 207)'\n};\n\n(function(global) {\n\tvar Months = [\n\t\t'January',\n\t\t'February',\n\t\t'March',\n\t\t'April',\n\t\t'May',\n\t\t'June',\n\t\t'July',\n\t\t'August',\n\t\t'September',\n\t\t'October',\n\t\t'November',\n\t\t'December'\n\t];\n\n\tvar COLORS = [\n\t\t'#4dc9f6',\n\t\t'#f67019',\n\t\t'#f53794',\n\t\t'#537bc4',\n\t\t'#acc236',\n\t\t'#166a8f',\n\t\t'#00a950',\n\t\t'#58595b',\n\t\t'#8549ba'\n\t];\n\n\tvar Samples = global.Samples || (global.Samples = {});\n\tvar Color = global.Color;\n\n\tSamples.utils = {\n\t\t// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/\n\t\tsrand: function(seed) {\n\t\t\tthis._seed = seed;\n\t\t},\n\n\t\trand: function(min, max) {\n\t\t\tvar seed = this._seed;\n\t\t\tmin = min === undefined ? 0 : min;\n\t\t\tmax = max === undefined ? 1 : max;\n\t\t\tthis._seed = (seed * 9301 + 49297) % 233280;\n\t\t\treturn min + (this._seed / 233280) * (max - min);\n\t\t},\n\n\t\tnumbers: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 1;\n\t\t\tvar from = cfg.from || [];\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar continuity = cfg.continuity || 1;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar data = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = (from[i] || 0) + this.rand(min, max);\n\t\t\t\tif (this.rand() <= continuity) {\n\t\t\t\t\tdata.push(Math.round(dfactor * value) / dfactor);\n\t\t\t\t} else {\n\t\t\t\t\tdata.push(null);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tlabels: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 100;\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar step = (max - min) / count;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar prefix = cfg.prefix || '';\n\t\t\tvar values = [];\n\t\t\tvar i;\n\n\t\t\tfor (i = min; i < max; i += step) {\n\t\t\t\tvalues.push(prefix + Math.round(dfactor * i) / dfactor);\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tmonths: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar count = cfg.count || 12;\n\t\t\tvar section = cfg.section;\n\t\t\tvar values = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = Months[Math.ceil(i) % 12];\n\t\t\t\tvalues.push(value.substring(0, section));\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tcolor: function(index) {\n\t\t\treturn COLORS[index % COLORS.length];\n\t\t},\n\n\t\ttransparentize: function(color, opacity) {\n\t\t\tvar alpha = opacity === undefined ? 0.5 : 1 - opacity;\n\t\t\treturn Color(color).alpha(alpha).rgbString();\n\t\t}\n\t};\n\n\t// DEPRECATED\n\twindow.randomScalingFactor = function() {\n\t\treturn Math.round(Samples.utils.rand(-100, 100));\n\t};\n\n\t// INITIALIZATION\n\n\tSamples.utils.srand(Date.now());\n\n\n\n}(this));\n\n\n\n\n\n\n\n\n\n\t\tvar config = {\n\t\t\ttype: 'line',\n\t\t\tdata: {\n\t\t\t\tlabels: [tstampToHuman(10),tstampToHuman(9),tstampToHuman(8),tstampToHuman(7),tstampToHuman(6),tstampToHuman(5),tstampToHuman(4),tstampToHuman(3),tstampToHuman(2),tstampToHuman(1)],\n\t\t\t\tdatasets: [{\n\t\t\t\t\tlabel: 'Humidity in %',\n\t\t\t\t\tbackgroundColor: window.chartColors.red,\n\t\t\t\t\tborderColor: window.chartColors.red,\n\t\t\t\t\tdata: [\n                                            0,0,0,0,0,0,0,0,0,0\n\t\t\t\t\t],\n\t\t\t\t\tfill: false\n                                        \n\t\t\t\t}]\n\t\t\t},\n\t\t\toptions: {\n\t\t\t\tresponsive: true,\n\t\t\t\ttitle: {\n\t\t\t\t\tdisplay: true,\n\t\t\t\t\ttext: 'Chart.js Line Chart'\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tmode: 'index',\n\t\t\t\t\tintersect: false,\n\t\t\t\t},\n\t\t\t\thover: {\n\t\t\t\t\tmode: 'nearest',\n\t\t\t\t\tintersect: true\n\t\t\t\t},\n\t\t\t\tscales: {\n\t\t\t\t\txAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: 'time'\n\t\t\t\t\t\t}\n\t\t\t\t\t}],\n\t\t\t\t\tyAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: '%'\n\t\t\t\t\t\t}\n\t\t\t\t\t}]\n\t\t\t\t},\n                                onAnimationProgess: done\n                                \n\t\t\t}\n\t\t};\n\n\t\twindow.onload = function() {\n\t\t\tvar ctx = document.getElementById('canvas').getContext('2d');\n\t\t\twindow.myLine = new Chart(ctx, config);\n\t\t};\n\n\n\n\n\t\tfunction done(data){\n  console.log(\"haha\");\n  var url=data;\n  //document.getElementById(\"url_img\").src=url;\n  document.getElementById(\"url_a\").href=url;\n  document.getElementById('url_a').click();\n  \n  }\n\n\n\n\n\n\n\t\tvar colorNames = Object.keys(window.chartColors);\n                \n                setInterval(function(){dataUpdate(humidity)},30000);\n\t\t\n                function dataUpdate(data){\n\t\t\tif (config.data.datasets.length > 0) {\n                                var time = tstampToHuman();\n                                config.data.labels.shift();\n\t\t\t\tconfig.data.labels.push(time);\n\n\t\t\t\tconfig.data.datasets.forEach(function(dataset) {\n                                    dataset.data.shift();\n                                    dataset.data.push(data);\n\t\t\t\t});\n\t\t\t\n\t\t\t\twindow.myLine.update();\n                                done(window.myLine.toBase64Image());\n                                //console.log(window.myLine.toBase64Image());\n\t\t\t}\n                }\n\t\t                \n                function tstampToHuman(sec=0){\n                    \n                    var date = new Date()\n                    // Hours part from the timestamp\n                    var hours = date.getHours();\n                    // Minutes part from the timestamp\n                    var minutes = \"0\" + date.getMinutes();\n                    // Seconds part from the timestamp\n                    var seconds = \"0\" + date.getSeconds();\n\n                    // Will display time in 10:30:23 format\n                    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + (seconds.substr(-2)-sec);\n                    return formattedTime;\n                    }\n                    \n                    \n$(document).ready(function(){\n    setInterval(function(){retrieveJson()},20000);\n\n    function retrieveJson () {$.ajax({\n\t\t  type: 'GET',\n//\t\t  url: 'http://www.xampp-json.org/json/sensor-data.json',\n\t\t  url: 'http://www.xampp-json.org/index.php',\n//\t\tdata: { get_param: 'value' }, \n\t\t  async: true,\n                  crossDoamin:true,\n\t\t  beforeSend: function (xhr) {\n\t\t    if (xhr && xhr.overrideMimeType) {\n\t\t      xhr.overrideMimeType('application/json;charset=utf-8');\n\t\t    }\n\t\t  },\n\t\t  dataType: 'json',\n\t\t  success: function (data) {\n\t\t    //Do stuff with the JSON data\n            console.log('result: '+JSON.stringify(data));\n            //console.log(data.ts);\n\t\t\t//$.each(data, function(index, element) {\n            //\t\tconsole.log(index+element);\n\t\t      //  });\n\t\t  data = JSON.parse(data);\n            humidity = data.humidity;\n\t\t  }\n\t\t});\n\n    }\n});\n             \n\t</script>\n\n</body>\n\n</html>",
         "output": "str",
-        "x": 380,
-        "y": 660,
+        "x": 520,
+        "y": 580,
         "wires": [
             [
                 "8cdd2482.d55f28",
