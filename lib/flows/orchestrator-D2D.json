@@ -7,6 +7,45 @@
         "info": ""
     },
     {
+        "id": "cdaa3606.f5d7e8",
+        "type": "subflow",
+        "name": "Persistence Helper",
+        "info": "",
+        "in": [
+            {
+                "x": 45.5,
+                "y": 85,
+                "wires": [
+                    {
+                        "id": "ddaea471.4f1bb8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 749.5,
+                "y": 53,
+                "wires": [
+                    {
+                        "id": "3a99eed6.369f1a",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 755,
+                "y": 169,
+                "wires": [
+                    {
+                        "id": "de1516ad.b9bdb",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "be8a0902.f0ab98",
         "type": "mqtt-broker",
         "z": "",
@@ -25,19 +64,153 @@
         "birthPayload": ""
     },
     {
-        "id": "82ffe50e.78a1a8",
-        "type": "ds18b20",
+        "id": "ec9d79ac.618b98",
+        "type": "websocket-listener",
         "z": "2d24f03b.b9c7b",
-        "name": "temperature",
-        "sensorid": "28-04168471a4ff",
-        "timer": "0.25",
-        "x": 210,
-        "y": 60,
-        "wires": [
-            [
-                "1b7477c7.2868d8"
-            ]
-        ]
+        "path": "/ws/simple",
+        "wholemsg": "false"
+    },
+    {
+        "id": "f28aeae2.81cc58",
+        "type": "ui_group",
+        "z": "",
+        "name": "Chart with integer X axis",
+        "tab": "1d93a1b6.2d0a9e",
+        "order": 1,
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "1d93a1b6.2d0a9e",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Chart.js example",
+        "icon": "dashboard",
+        "order": 2
+    },
+    {
+        "id": "e6a67701.40a25",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "c0c6155f.faffc",
+        "type": "ui_group",
+        "z": "",
+        "name": "Chart with integer X axis",
+        "tab": "2f8af9ca.851a6e",
+        "order": 1,
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "2f8af9ca.851a6e",
+        "type": "ui_tab",
+        "z": "",
+        "name": "Chart.js example",
+        "icon": "dashboard",
+        "order": 2
+    },
+    {
+        "id": "905a0ad1.3d1a68",
+        "type": "ui_group",
+        "name": "c9d04b07.b00228",
+        "tab": "1d93a1b6.2d0a9e",
+        "order": null,
+        "disp": true,
+        "width": 6
+    },
+    {
+        "id": "44884062.bdee88",
+        "type": "ui_group",
+        "name": "c9d04b07.b00228",
+        "tab": "1d93a1b6.2d0a9e",
+        "order": null,
+        "disp": true,
+        "width": 6
     },
     {
         "id": "4d5b8bda.a62cd4",
@@ -48,8 +221,8 @@
         "qos": "1",
         "retain": "false",
         "broker": "be8a0902.f0ab98",
-        "x": 220,
-        "y": 220,
+        "x": 170,
+        "y": 340,
         "wires": []
     },
     {
@@ -74,14 +247,15 @@
         "z": "2d24f03b.b9c7b",
         "name": "",
         "maxTopics": 1,
-        "maxMessagesPerTopic": "6",
+        "maxMessagesPerTopic": "1",
         "maxDelay": "120000",
         "x": 500,
-        "y": 300,
+        "y": 280,
         "wires": [
             [
                 "4caa5fe8.1ef5d",
-                "8aca6118.64d78"
+                "8aca6118.64d78",
+                "50c1427.ddab9bc"
             ]
         ]
     },
@@ -90,11 +264,11 @@
         "type": "function",
         "z": "2d24f03b.b9c7b",
         "name": "add timestamp",
-        "func": "\nmsg.payload = {\n    timestamp: new Date().getTime(),\n    value: msg.payload\n}\n\nreturn msg;",
+        "func": "var temp = msg.payload;\n\nmsg.payload=null;\nmsg.payload = {\n    tstamp: new Date().getTime(),\n    temp: temp,\n    humidity:msg.humidity\n    }\ntemp=null;\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
-        "x": 220,
-        "y": 140,
+        "x": 140,
+        "y": 280,
         "wires": [
             [
                 "4d5b8bda.a62cd4"
@@ -107,54 +281,302 @@
         "z": "2d24f03b.b9c7b",
         "name": "batch msg",
         "active": true,
-        "console": "false",
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
         "complete": "true",
         "x": 730,
-        "y": 300,
+        "y": 280,
         "wires": []
     },
     {
         "id": "8aca6118.64d78",
         "type": "file",
         "z": "2d24f03b.b9c7b",
-        "name": "SCAMPI file",
-        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
+        "name": "json file for chart",
+        "filename": "/var/www/html/chart_to_img/json/sensor-data.json",
         "appendNewline": false,
         "createDir": false,
         "overwriteFile": "true",
-        "x": 500.2500419616699,
-        "y": 387.5000514984131,
+        "x": 510,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "64a8c25a.ee6fac",
-        "type": "file",
-        "z": "2d24f03b.b9c7b",
-        "name": "delete SCAMPI file",
-        "filename": "/home/pi/Scampi App Developer Package 0.4.1b/bin/java/FileTransfer/files/sensor-data.json",
-        "appendNewline": false,
-        "createDir": false,
-        "overwriteFile": "delete",
-        "x": 750,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "3a816017.34c0a",
+        "id": "ba179282.2991a",
         "type": "inject",
         "z": "2d24f03b.b9c7b",
-        "name": "delete file",
+        "name": "",
         "topic": "",
-        "payload": "true",
-        "payloadType": "bool",
-        "repeat": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "50",
         "crontab": "",
-        "once": false,
-        "x": 500,
-        "y": 80,
+        "once": true,
+        "onceDelay": "",
+        "x": 110,
+        "y": 120,
         "wires": [
             [
-                "64a8c25a.ee6fac"
+                "1ad47136.38e81f"
+            ]
+        ]
+    },
+    {
+        "id": "1ad47136.38e81f",
+        "type": "rpi-dht22",
+        "z": "2d24f03b.b9c7b",
+        "name": "humidity+temperature sensor",
+        "topic": "rpi-dht11",
+        "dht": "11",
+        "pintype": "0",
+        "pin": "17",
+        "x": 220,
+        "y": 200,
+        "wires": [
+            [
+                "1b7477c7.2868d8"
+            ]
+        ]
+    },
+    {
+        "id": "50c1427.ddab9bc",
+        "type": "exec",
+        "z": "2d24f03b.b9c7b",
+        "command": "/usr/bin/sudo",
+        "addpay": false,
+        "append": "sh /home/pi/eWine-orchestrator/bash_files/scp_json.sh",
+        "useSpawn": "false",
+        "timer": "10",
+        "oldrc": false,
+        "name": "",
+        "x": 840,
+        "y": 220,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "421c145b.47c6bc",
+        "type": "template",
+        "z": "2d24f03b.b9c7b",
+        "name": "temp chart",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<!doctype html>\n<html>\n\n<head>\n    <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Line Chart</title>\n\t<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\" integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\" crossorigin=\"anonymous\"></script>\n\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js\"></script>\n\t\n\t\n\t<style>\n\tcanvas{\n\t\t-moz-user-select: none;\n\t\t-webkit-user-select: none;\n\t\t-ms-user-select: none;\n\t}\n\t</style>\n</head>\n\n<body>\n    \n    \t<div style=\"width:75%;\">\n\t\t<canvas id=\"canvas\"></canvas>\n                <img id=\"url_img\" />\n                <a id =\"url_a\" href=\"#\" download=\"temperature.png\">Download</a>\n\t</div>\n\t<br>\n\t<br>\n\t\n    \n\t<script>\n\t'use strict';\n\tvar temp=0;\n\tvar hum = 0;\n//node.warn('temp: '+msg.payload.temp);\n\n\nwindow.chartColors = {\n\tred: 'rgb(255, 99, 132)',\n\torange: 'rgb(255, 159, 64)',\n\tyellow: 'rgb(255, 205, 86)',\n\tgreen: 'rgb(75, 192, 192)',\n\tblue: 'rgb(54, 162, 235)',\n\tpurple: 'rgb(153, 102, 255)',\n\tgrey: 'rgb(201, 203, 207)'\n};\n\n(function(global) {\n\tvar Months = [\n\t\t'January',\n\t\t'February',\n\t\t'March',\n\t\t'April',\n\t\t'May',\n\t\t'June',\n\t\t'July',\n\t\t'August',\n\t\t'September',\n\t\t'October',\n\t\t'November',\n\t\t'December'\n\t];\n\n\tvar COLORS = [\n\t\t'#4dc9f6',\n\t\t'#f67019',\n\t\t'#f53794',\n\t\t'#537bc4',\n\t\t'#acc236',\n\t\t'#166a8f',\n\t\t'#00a950',\n\t\t'#58595b',\n\t\t'#8549ba'\n\t];\n\n\tvar Samples = global.Samples || (global.Samples = {});\n\tvar Color = global.Color;\n\n\tSamples.utils = {\n\t\t// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/\n\t\tsrand: function(seed) {\n\t\t\tthis._seed = seed;\n\t\t},\n\n\t\trand: function(min, max) {\n\t\t\tvar seed = this._seed;\n\t\t\tmin = min === undefined ? 0 : min;\n\t\t\tmax = max === undefined ? 1 : max;\n\t\t\tthis._seed = (seed * 9301 + 49297) % 233280;\n\t\t\treturn min + (this._seed / 233280) * (max - min);\n\t\t},\n\n\t\tnumbers: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 1;\n\t\t\tvar from = cfg.from || [];\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar continuity = cfg.continuity || 1;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar data = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = (from[i] || 0) + this.rand(min, max);\n\t\t\t\tif (this.rand() <= continuity) {\n\t\t\t\t\tdata.push(Math.round(dfactor * value) / dfactor);\n\t\t\t\t} else {\n\t\t\t\t\tdata.push(null);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tlabels: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 100;\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar step = (max - min) / count;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar prefix = cfg.prefix || '';\n\t\t\tvar values = [];\n\t\t\tvar i;\n\n\t\t\tfor (i = min; i < max; i += step) {\n\t\t\t\tvalues.push(prefix + Math.round(dfactor * i) / dfactor);\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tmonths: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar count = cfg.count || 12;\n\t\t\tvar section = cfg.section;\n\t\t\tvar values = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = Months[Math.ceil(i) % 12];\n\t\t\t\tvalues.push(value.substring(0, section));\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tcolor: function(index) {\n\t\t\treturn COLORS[index % COLORS.length];\n\t\t},\n\n\t\ttransparentize: function(color, opacity) {\n\t\t\tvar alpha = opacity === undefined ? 0.5 : 1 - opacity;\n\t\t\treturn Color(color).alpha(alpha).rgbString();\n\t\t}\n\t};\n\n\t// DEPRECATED\n\twindow.randomScalingFactor = function() {\n\t\treturn Math.round(Samples.utils.rand(-100, 100));\n\t};\n\n\t// INITIALIZATION\n\n\tSamples.utils.srand(Date.now());\n\n\n\n}(this));\n\n\n\n\n\n\n\n\n\n\t\tvar config = {\n\t\t\ttype: 'line',\n\t\t\tdata: {\n\t\t\t\tlabels: [tstampToHuman(10),tstampToHuman(9),tstampToHuman(8),tstampToHuman(7),tstampToHuman(6),tstampToHuman(5),tstampToHuman(4),tstampToHuman(3),tstampToHuman(2),tstampToHuman(1)],\n\t\t\t\tdatasets: [{\n\t\t\t\t\tlabel: 'Temperature in Celsius degrees',\n\t\t\t\t\tbackgroundColor: window.chartColors.red,\n\t\t\t\t\tborderColor: window.chartColors.red,\n\t\t\t\t\tdata: [\n                                            0,0,0,0,0,0,0,0,0,0\n\t\t\t\t\t],\n\t\t\t\t\tfill: false\n                                        \n\t\t\t\t}]\n\t\t\t},\n\t\t\toptions: {\n\t\t\t\tresponsive: true,\n\t\t\t\ttitle: {\n\t\t\t\t\tdisplay: true,\n\t\t\t\t\ttext: 'Chart.js Line Chart'\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tmode: 'index',\n\t\t\t\t\tintersect: false,\n\t\t\t\t},\n\t\t\t\thover: {\n\t\t\t\t\tmode: 'nearest',\n\t\t\t\t\tintersect: true\n\t\t\t\t},\n\t\t\t\tscales: {\n\t\t\t\t\txAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: 'time'\n\t\t\t\t\t\t}\n\t\t\t\t\t}],\n\t\t\t\t\tyAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: '°C Degrees'\n\t\t\t\t\t\t}\n\t\t\t\t\t}]\n\t\t\t\t},\n                                onAnimationProgess: done\n                                \n\t\t\t}\n\t\t};\n\n\t\twindow.onload = function() {\n\t\t\tvar ctx = document.getElementById('canvas').getContext('2d');\n\t\t\twindow.myLine = new Chart(ctx, config);\n\t\t};\n\n\n\n\n\t\tfunction done(data){\n  console.log(\"haha\");\n  var url=data;\n  //document.getElementById(\"url_img\").src=url;\n  document.getElementById(\"url_a\").href=url;\n  document.getElementById('url_a').click();\n  \n  }\n\n\n\n\n\n\n\t\tvar colorNames = Object.keys(window.chartColors);\n                \n                setInterval(function(){dataUpdate(temp)},58000);\n\t\t\n                function dataUpdate(data){\n\t\t\tif (config.data.datasets.length > 0) {\n                                var time = tstampToHuman();\n                                config.data.labels.shift();\n\t\t\t\tconfig.data.labels.push(time);\n\n\t\t\t\tconfig.data.datasets.forEach(function(dataset) {\n                                    dataset.data.shift();\n                                    dataset.data.push(data);\n\t\t\t\t});\n\t\t\t\n\t\t\t\twindow.myLine.update();\n                                done(window.myLine.toBase64Image());\n                                //console.log(window.myLine.toBase64Image());\n\t\t\t}\n                }\n\t\t                \n                function tstampToHuman(sec=0){\n                    \n                    var date = new Date()\n                    // Hours part from the timestamp\n                    var hours = date.getHours();\n                    // Minutes part from the timestamp\n                    var minutes = \"0\" + date.getMinutes();\n                    // Seconds part from the timestamp\n                    var seconds = \"0\" + date.getSeconds();\n\n                    // Will display time in 10:30:23 format\n                    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + (seconds.substr(-2)-sec);\n                    return formattedTime;\n                    }\n                    \n                    \n$(document).ready(function(){\n    setInterval(function(){retrieveJson()},54000);\n\n    function retrieveJson () {$.ajax({\n\t\t  type: 'GET',\n//\t\t  url: 'http://www.xampp-json.org/json/sensor-data.json',\n\t\t  url: 'http://www.xampp-json.org/index.php',\n//\t\tdata: { get_param: 'value' }, \n\t\t  async: true,\n                  crossDoamin:true,\n\t\t  beforeSend: function (xhr) {\n\t\t    if (xhr && xhr.overrideMimeType) {\n\t\t      xhr.overrideMimeType('application/json;charset=utf-8');\n\t\t    }\n\t\t  },\n\t\t  dataType: 'json',\n\t\t  success: function (data) {\n\t\t    //Do stuff with the JSON data\n            console.log('result: '+JSON.stringify(data));\n            //console.log(data.ts);\n\t\t\t//$.each(data, function(index, element) {\n            //\t\tconsole.log(index+element);\n\t\t      //  });\n\t\t  data = JSON.parse(data);\n            temp = data.temp;\n\t\t  }\n\t\t});\n\n    }\n});\n             \n\t</script>\n\n</body>\n\n</html>",
+        "output": "str",
+        "x": 510,
+        "y": 440,
+        "wires": [
+            [
+                "bd689ebc.9d979",
+                "e1187f4b.ed8bf"
+            ]
+        ]
+    },
+    {
+        "id": "e1187f4b.ed8bf",
+        "type": "http response",
+        "z": "2d24f03b.b9c7b",
+        "name": "status code",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "4a6ac03c.a4c3f",
+        "type": "http in",
+        "z": "2d24f03b.b9c7b",
+        "name": "get /temp_chart",
+        "url": "/temp_chart",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 440,
+        "wires": [
+            [
+                "421c145b.47c6bc"
+            ]
+        ]
+    },
+    {
+        "id": "bd689ebc.9d979",
+        "type": "debug",
+        "z": "2d24f03b.b9c7b",
+        "name": "temp debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 740,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "3a99eed6.369f1a",
+        "type": "change",
+        "z": "cdaa3606.f5d7e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "action",
+                "pt": "msg",
+                "to": "restore",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 589.5,
+        "y": 53,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ddaea471.4f1bb8",
+        "type": "json",
+        "z": "cdaa3606.f5d7e8",
+        "name": "",
+        "x": 175.5,
+        "y": 85,
+        "wires": [
+            [
+                "3a99eed6.369f1a"
+            ]
+        ]
+    },
+    {
+        "id": "374b18ef.4a40c",
+        "type": "catch",
+        "z": "cdaa3606.f5d7e8",
+        "name": "",
+        "scope": [
+            "ddaea471.4f1bb8"
+        ],
+        "x": 183.5,
+        "y": 117,
+        "wires": [
+            [
+                "aebb891f.74f38"
+            ]
+        ]
+    },
+    {
+        "id": "aebb891f.74f38",
+        "type": "change",
+        "z": "cdaa3606.f5d7e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 354.5,
+        "y": 116,
+        "wires": [
+            [
+                "3a99eed6.369f1a"
+            ]
+        ]
+    },
+    {
+        "id": "de1516ad.b9bdb",
+        "type": "inject",
+        "z": "cdaa3606.f5d7e8",
+        "name": "Trigger restore",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "x": 618.5,
+        "y": 169,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "650b6c14.272774",
+        "type": "http in",
+        "z": "2d24f03b.b9c7b",
+        "name": "get humidity_chart",
+        "url": "/humidity_chart",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 580,
+        "wires": [
+            [
+                "ff584a84.547068"
+            ]
+        ]
+    },
+    {
+        "id": "8cdd2482.d55f28",
+        "type": "http response",
+        "z": "2d24f03b.b9c7b",
+        "name": "status code",
+        "statusCode": "",
+        "headers": {},
+        "x": 730,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "91140710.1ab0b8",
+        "type": "debug",
+        "z": "2d24f03b.b9c7b",
+        "name": "humidity debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 750,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ff584a84.547068",
+        "type": "template",
+        "z": "2d24f03b.b9c7b",
+        "name": "humidity chart",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "mustache",
+        "template": "<!doctype html>\n<html>\n\n<head>\n    <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\t<title>Line Chart</title>\n\t<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\" integrity=\"sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=\" crossorigin=\"anonymous\"></script>\n\t<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js\"></script>\n\t\n\t\n\t<style>\n\tcanvas{\n\t\t-moz-user-select: none;\n\t\t-webkit-user-select: none;\n\t\t-ms-user-select: none;\n\t}\n\t</style>\n</head>\n\n<body>\n    \n    \t<div style=\"width:75%;\">\n\t\t<canvas id=\"canvas\"></canvas>\n                <img id=\"url_img\" />\n                <a id =\"url_a\" href=\"#\" download=\"humidity.png\">Download</a>\n\t</div>\n\t<br>\n\t<br>\n\t\n    \n\t<script>\n\t'use strict';\n\t\n\tvar humidity = 0;\n\n\nwindow.chartColors = {\n\tred: 'rgb(255, 99, 132)',\n\torange: 'rgb(255, 159, 64)',\n\tyellow: 'rgb(255, 205, 86)',\n\tgreen: 'rgb(75, 192, 192)',\n\tblue: 'rgb(54, 162, 235)',\n\tpurple: 'rgb(153, 102, 255)',\n\tgrey: 'rgb(201, 203, 207)'\n};\n\n(function(global) {\n\tvar Months = [\n\t\t'January',\n\t\t'February',\n\t\t'March',\n\t\t'April',\n\t\t'May',\n\t\t'June',\n\t\t'July',\n\t\t'August',\n\t\t'September',\n\t\t'October',\n\t\t'November',\n\t\t'December'\n\t];\n\n\tvar COLORS = [\n\t\t'#4dc9f6',\n\t\t'#f67019',\n\t\t'#f53794',\n\t\t'#537bc4',\n\t\t'#acc236',\n\t\t'#166a8f',\n\t\t'#00a950',\n\t\t'#58595b',\n\t\t'#8549ba'\n\t];\n\n\tvar Samples = global.Samples || (global.Samples = {});\n\tvar Color = global.Color;\n\n\tSamples.utils = {\n\t\t// Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/\n\t\tsrand: function(seed) {\n\t\t\tthis._seed = seed;\n\t\t},\n\n\t\trand: function(min, max) {\n\t\t\tvar seed = this._seed;\n\t\t\tmin = min === undefined ? 0 : min;\n\t\t\tmax = max === undefined ? 1 : max;\n\t\t\tthis._seed = (seed * 9301 + 49297) % 233280;\n\t\t\treturn min + (this._seed / 233280) * (max - min);\n\t\t},\n\n\t\tnumbers: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 1;\n\t\t\tvar from = cfg.from || [];\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar continuity = cfg.continuity || 1;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar data = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = (from[i] || 0) + this.rand(min, max);\n\t\t\t\tif (this.rand() <= continuity) {\n\t\t\t\t\tdata.push(Math.round(dfactor * value) / dfactor);\n\t\t\t\t} else {\n\t\t\t\t\tdata.push(null);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\treturn data;\n\t\t},\n\n\t\tlabels: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar min = cfg.min || 0;\n\t\t\tvar max = cfg.max || 100;\n\t\t\tvar count = cfg.count || 8;\n\t\t\tvar step = (max - min) / count;\n\t\t\tvar decimals = cfg.decimals || 8;\n\t\t\tvar dfactor = Math.pow(10, decimals) || 0;\n\t\t\tvar prefix = cfg.prefix || '';\n\t\t\tvar values = [];\n\t\t\tvar i;\n\n\t\t\tfor (i = min; i < max; i += step) {\n\t\t\t\tvalues.push(prefix + Math.round(dfactor * i) / dfactor);\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tmonths: function(config) {\n\t\t\tvar cfg = config || {};\n\t\t\tvar count = cfg.count || 12;\n\t\t\tvar section = cfg.section;\n\t\t\tvar values = [];\n\t\t\tvar i, value;\n\n\t\t\tfor (i = 0; i < count; ++i) {\n\t\t\t\tvalue = Months[Math.ceil(i) % 12];\n\t\t\t\tvalues.push(value.substring(0, section));\n\t\t\t}\n\n\t\t\treturn values;\n\t\t},\n\n\t\tcolor: function(index) {\n\t\t\treturn COLORS[index % COLORS.length];\n\t\t},\n\n\t\ttransparentize: function(color, opacity) {\n\t\t\tvar alpha = opacity === undefined ? 0.5 : 1 - opacity;\n\t\t\treturn Color(color).alpha(alpha).rgbString();\n\t\t}\n\t};\n\n\t// DEPRECATED\n\twindow.randomScalingFactor = function() {\n\t\treturn Math.round(Samples.utils.rand(-100, 100));\n\t};\n\n\t// INITIALIZATION\n\n\tSamples.utils.srand(Date.now());\n\n\n\n}(this));\n\n\n\n\n\n\n\n\n\n\t\tvar config = {\n\t\t\ttype: 'line',\n\t\t\tdata: {\n\t\t\t\tlabels: [tstampToHuman(10),tstampToHuman(9),tstampToHuman(8),tstampToHuman(7),tstampToHuman(6),tstampToHuman(5),tstampToHuman(4),tstampToHuman(3),tstampToHuman(2),tstampToHuman(1)],\n\t\t\t\tdatasets: [{\n\t\t\t\t\tlabel: 'Humidity in %',\n\t\t\t\t\tbackgroundColor: window.chartColors.red,\n\t\t\t\t\tborderColor: window.chartColors.red,\n\t\t\t\t\tdata: [\n                                            0,0,0,0,0,0,0,0,0,0\n\t\t\t\t\t],\n\t\t\t\t\tfill: false\n                                        \n\t\t\t\t}]\n\t\t\t},\n\t\t\toptions: {\n\t\t\t\tresponsive: true,\n\t\t\t\ttitle: {\n\t\t\t\t\tdisplay: true,\n\t\t\t\t\ttext: 'Chart.js Line Chart'\n\t\t\t\t},\n\t\t\t\ttooltips: {\n\t\t\t\t\tmode: 'index',\n\t\t\t\t\tintersect: false,\n\t\t\t\t},\n\t\t\t\thover: {\n\t\t\t\t\tmode: 'nearest',\n\t\t\t\t\tintersect: true\n\t\t\t\t},\n\t\t\t\tscales: {\n\t\t\t\t\txAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: 'time'\n\t\t\t\t\t\t}\n\t\t\t\t\t}],\n\t\t\t\t\tyAxes: [{\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tscaleLabel: {\n\t\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\t\tlabelString: '%'\n\t\t\t\t\t\t}\n\t\t\t\t\t}]\n\t\t\t\t},\n                                onAnimationProgess: done\n                                \n\t\t\t}\n\t\t};\n\n\t\twindow.onload = function() {\n\t\t\tvar ctx = document.getElementById('canvas').getContext('2d');\n\t\t\twindow.myLine = new Chart(ctx, config);\n\t\t};\n\n\n\n\n\t\tfunction done(data){\n  console.log(\"haha\");\n  var url=data;\n  //document.getElementById(\"url_img\").src=url;\n  document.getElementById(\"url_a\").href=url;\n  document.getElementById('url_a').click();\n  \n  }\n\n\n\n\n\n\n\t\tvar colorNames = Object.keys(window.chartColors);\n                \n                setInterval(function(){dataUpdate(humidity)},58000);\n\t\t\n                function dataUpdate(data){\n\t\t\tif (config.data.datasets.length > 0) {\n                                var time = tstampToHuman();\n                                config.data.labels.shift();\n\t\t\t\tconfig.data.labels.push(time);\n\n\t\t\t\tconfig.data.datasets.forEach(function(dataset) {\n                                    dataset.data.shift();\n                                    dataset.data.push(data);\n\t\t\t\t});\n\t\t\t\n\t\t\t\twindow.myLine.update();\n                                done(window.myLine.toBase64Image());\n                                //console.log(window.myLine.toBase64Image());\n\t\t\t}\n                }\n\t\t                \n                function tstampToHuman(sec=0){\n                    \n                    var date = new Date()\n                    // Hours part from the timestamp\n                    var hours = date.getHours();\n                    // Minutes part from the timestamp\n                    var minutes = \"0\" + date.getMinutes();\n                    // Seconds part from the timestamp\n                    var seconds = \"0\" + date.getSeconds();\n\n                    // Will display time in 10:30:23 format\n                    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + (seconds.substr(-2)-sec);\n                    return formattedTime;\n                    }\n                    \n                    \n$(document).ready(function(){\n    setInterval(function(){retrieveJson()},54000);\n\n    function retrieveJson () {$.ajax({\n\t\t  type: 'GET',\n//\t\t  url: 'http://www.xampp-json.org/json/sensor-data.json',\n\t\t  url: 'http://www.xampp-json.org/index.php',\n//\t\tdata: { get_param: 'value' }, \n\t\t  async: true,\n                  crossDoamin:true,\n\t\t  beforeSend: function (xhr) {\n\t\t    if (xhr && xhr.overrideMimeType) {\n\t\t      xhr.overrideMimeType('application/json;charset=utf-8');\n\t\t    }\n\t\t  },\n\t\t  dataType: 'json',\n\t\t  success: function (data) {\n\t\t    //Do stuff with the JSON data\n            console.log('result: '+JSON.stringify(data));\n            //console.log(data.ts);\n\t\t\t//$.each(data, function(index, element) {\n            //\t\tconsole.log(index+element);\n\t\t      //  });\n\t\t  data = JSON.parse(data);\n            humidity = data.humidity;\n\t\t  }\n\t\t});\n\n    }\n});\n             \n\t</script>\n\n</body>\n\n</html>",
+        "output": "str",
+        "x": 520,
+        "y": 580,
+        "wires": [
+            [
+                "8cdd2482.d55f28",
+                "91140710.1ab0b8"
             ]
         ]
     }

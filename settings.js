@@ -55,7 +55,7 @@ module.exports = {
     //debugUseColors: true,
 
     // The file containing the flows. If not set, it defaults to flows_<hostname>.json
-    flowFile: 'lib/flows/orchestrator.json',
+    flowFile: 'lib/flows/orchestrator-D2D.json',
 
     // To enabled pretty-printing of the flow within the flow file, set the following
     //  property to true:
@@ -95,7 +95,7 @@ module.exports = {
     // When httpAdminRoot is used to move the UI to a different root path, the
     // following property can be used to identify a directory of static content
     // that should be served at http://localhost:1880/.
-    //httpStatic: '/home/nol/node-red-static/',
+    httpStatic: '/home/pi/eWine-orchestrator/static/',
 
     // The maximum size of HTTP request that will be accepted by the runtime api.
     // Default: 5mb
@@ -103,7 +103,7 @@ module.exports = {
 
     // If you installed the optional node-red-dashboard you can set it's path
     // relative to httpRoot
-    //ui: { path: "ui" },
+    ui: { path: "ui" },
 
     // Securing Node-RED
     // -----------------
