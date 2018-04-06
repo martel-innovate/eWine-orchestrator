@@ -16,6 +16,7 @@ rsync -aP /home/pi/eWine-orchestrator/temperature_files/ /home/pi/Scampi\ App\ D
 #wi-fi rpi_y_w
 scp -i /home/pi/.ssh/id_rsa /home/pi/Downloads/humidity*.png pi@192.168.1.217:/home/pi/Downloads/humidity_images/
 
+
 #remove humidity files
 #rm -rf /home/pi/Downloads/humidity*.png
 
